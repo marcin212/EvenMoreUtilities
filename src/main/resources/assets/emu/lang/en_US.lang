@@ -1,0 +1,12 @@
+item.emu.private.card.nfc.name=NFC Private Card
+item.emu.card.nfc.name=NFC Card
+tile.emu.NFCProgrammer.name=NFC Programmer
+tile.emu.NFCReader.name=NFC Reader
+
+tile.emu.energySiphon.name=Energy Siphon
+
+tile.emu.quarryFixer.name=Quarry Fixer
+
+tile.emu.RedstoneEmitter.name=Variable Redstone Emitter
+tile.emu.OpenScanner.name=Environmental Scanner
+tile.emu.MultimeterSensor.name=RF Meter

@@ -1,0 +1,16 @@
+[
+{
+  "modid": "emu",
+  "name": "Even More Utilities",
+  "description": "Even More Utilities",
+  "version": "0.0.1",
+  "mcversion": "1.6.4",
+  "url": "",
+  "updateUrl": "",
+  "authors": ["marcin212"],
+  "credits": "marcin212,Kubuxu,OpenMods,ExtraCells",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
