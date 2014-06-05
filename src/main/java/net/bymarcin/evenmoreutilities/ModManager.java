@@ -17,7 +17,7 @@ public class ModManager {
 	public ModManager() {
 		
 		mods.add(new ModDescription(modsClassPath+"quarryfixer.QuarryFixerMod",new String[]{"BuildCraft|Energy"},run("QuarryFixerMod")));
-		mods.add(new ModDescription(modsClassPath+"energysyphon.EnergySyphonMod",new String[]{"ThermalExpansion"},run("EnergySyphonMod")));
+		mods.add(new ModDescription(modsClassPath+"energysiphon.EnergySiphonMod",new String[]{"ThermalExpansion"},run("EnergySiphonMod")));
 		mods.add(new ModDescription(modsClassPath+"sensor.SensorMod",new String[]{"ThermalExpansion","ComputerCraft"},run("SensorMod")));
 		mods.add(new ModDescription(modsClassPath+"scanner.ScannerMod",new String[]{"OpenComponents"},run("ScannerMod")));
 		mods.add(new ModDescription(modsClassPath+"redstonemitter.RedstoneEmitterMod",new String[]{},run("RedstoneEmitterMod")));
