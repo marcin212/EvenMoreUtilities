@@ -14,7 +14,7 @@ public class SensorMod implements IMod{
 	ItemStack machinframe;
 	@Override
 	public void init() {
-		SensorID = EvenMoreUtilities.instance.config.getBlock("sensorID", 2048).getInt();
+		SensorID = EvenMoreUtilities.instance.config.getBlock("BlocksId","sensorID", 2048).getInt();
         GameRegistry.registerBlock(BlockSensor.instance,StaticValues.modId+":Sensor");
         GameRegistry.registerTileEntity(TileEntitySensor.class, StaticValues.modId+".Sensor");
         

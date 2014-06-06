@@ -16,7 +16,7 @@ public class ScannerMod implements IMod{
 	@Override
 	public void init() {
 		scannerID = EvenMoreUtilities.instance.config.getBlock("BlocksId","scanner", 3721).getInt();
-		scannerRange = EvenMoreUtilities.instance.config.getBlock("Options","scannerRange", 32).getInt(32);
+		scannerRange = EvenMoreUtilities.instance.config.get("Options","scannerRange", 32).getInt(32);
 		
         GameRegistry.registerBlock(BlockScanner.instance,StaticValues.modId+":scanner");
         GameRegistry.addRecipe(new ItemStack(BlockScanner.instance,1), 
