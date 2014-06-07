@@ -1,0 +1,12 @@
+item.emu.private.card.nfc.name=Prywatna Karta NFC
+item.emu.card.nfc.name=Karta NFC
+tile.emu.NFCProgrammer.name=Programator NFC
+tile.emu.NFCReader.name=Czytnik NFC
+
+tile.emu.energySiphon.name=Syfon Energetyczny
+
+tile.emu.quarryFixer.name=Naprawiacz Kopalni
+
+tile.emu.RedstoneEmitter.name=Regulowany Emiter Czerwonego Proszku
+tile.emu.OpenScanner.name=Skaner Otoczenia
+tile.emu.MultimeterSensor.name=Miernik Przep³ywu Fluksu Redstone
