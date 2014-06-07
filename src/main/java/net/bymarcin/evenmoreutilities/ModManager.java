@@ -4,83 +4,115 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 
+import javax.script.Bindings;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.ModContainer;
 
 public class ModManager {
 	HashSet<ModDescription> mods = new HashSet<ModManager.ModDescription>();
 	private static String modsClassPath = "net.bymarcin.evenmoreutilities.mods.";
+
 	
-	private boolean run(String modname){
-		return EvenMoreUtilities.instance.config.get("Mods", modname, true).getBoolean(true);
+	private void addMods(){
+		addMod("quarryfixer.QuarryFixerMod", 	"$('BuildCraft|Energy')" , 	"QuarryFixerMod");
+		addMod("energysiphon.EnergySiphonMod", 	"$('ThermalExpansion')", 	"EnergySiphonMod");
+		addMod("sensor.SensorMod",  			"$('ThermalExpansion') && $('ComputerCraft')" , "SensorMod");
+		addMod("scanner.ScannerMod", 			"$('OpenComponents')", 		"ScannerMod");
+		addMod("redstonemitter.RedstoneEmitterMod", "", 					"RedstoneEmitterMod");
+		addMod("nfc.NFCMod",					"$('OpenComponents')" , 	"NFCMod");
 	}
 	
-	public ModManager() {
+	
+	
+	private void addMod(String path, String dependencies, String name) {
+		mods.add(new ModDescription(modsClassPath + path, dependencies, EvenMoreUtilities.instance.config.get("Mods", name, true).getBoolean(true)));
+	}
+
+	public void preInit(){
+		HashSet<String> mods = new HashSet<String>();
 		
-		mods.add(new ModDescription(modsClassPath+"quarryfixer.QuarryFixerMod",new String[]{"BuildCraft|Energy"},run("QuarryFixerMod")));
-		mods.add(new ModDescription(modsClassPath+"energysiphon.EnergySiphonMod",new String[]{"ThermalExpansion"},run("EnergySiphonMod")));
-		mods.add(new ModDescription(modsClassPath+"sensor.SensorMod",new String[]{"ThermalExpansion","ComputerCraft"},run("SensorMod")));
-		mods.add(new ModDescription(modsClassPath+"scanner.ScannerMod",new String[]{"OpenComponents"},run("ScannerMod")));
-		mods.add(new ModDescription(modsClassPath+"redstonemitter.RedstoneEmitterMod",new String[]{},run("RedstoneEmitterMod")));
-		mods.add(new ModDescription(modsClassPath+"nfc.NFCMod", new String[]{"OpenComponents"}, run("NFCMod")));
+		for( ModContainer mod :Loader.instance().getModList()){
+			mods.add(mod.getModId());
+		}
+		
+		binding.put("mods", mods);
+		
+		addMods();
 	}
 	
-	public void postInit(){
-		for(ModDescription mod:mods){
-			if(mod.toLoad){
-				if(mod.dependencies!=null){
-					for(String modName: mod.dependencies){
-						mod.toLoad= Loader.isModLoaded(modName);
-						if(!mod.toLoad) break;
-					}
-				}
-			}
-			if(mod.toLoad){
+	
+	
+	public void postInit() {
+		for (ModDescription mod : mods) {
+			if (mod.toLoad) {
 				loadMod(mod);
 			}
-			if(mod.isLoaded){ mod.mod.init(); System.out.println("Loaded: " + mod.classPath);}
+			if (mod.isLoaded) {
+				mod.mod.init();
+				System.out.println("Loaded: " + mod.classPath);
+			}
 		}
 	}
-	
-	public void load(){
-		for(ModDescription mod:mods){
-			if(mod.isLoaded) mod.mod.load();
+
+	public void load() {
+		for (ModDescription mod : mods) {
+			if (mod.isLoaded)
+				mod.mod.load();
 		}
 	}
-	
-	private void loadMod(ModDescription mod){
-			try {
-				Class<?> modClass = Class.forName(mod.classPath);
-				Constructor<?> c = modClass.getConstructor();
-				mod.mod= (IMod) c.newInstance();
-				mod.isLoaded = mod.mod!=null;
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}	
+
+	private void loadMod(ModDescription mod) {
+		try {
+			Class<?> modClass = Class.forName(mod.classPath);
+			Constructor<?> c = modClass.getConstructor();
+			mod.mod = (IMod) c.newInstance();
+			mod.isLoaded = mod.mod != null;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
 	}
+
+	
+	private ScriptEngine engine = new ScriptEngineManager(null).getEngineByName("js");
+	private Bindings binding = engine.createBindings();
+	
+	
+	private class ModDescription {
 		
-	private class ModDescription{
-		Boolean toLoad =false;
-		Boolean isLoaded=false;
-		IMod mod=null;
+		Boolean toLoad = false;
+		Boolean isLoaded = false;
+		IMod mod = null;
 		String classPath;
-		String[] dependencies =null;
-		public ModDescription(String classPath, String[] dependencies, Boolean toLoad){
+		
+		public ModDescription(String classPath, String dependencies, Boolean toLoad) {
 			this.classPath = classPath;
-			this.dependencies = dependencies;
-			this.toLoad = toLoad;
+			this.toLoad = toLoad && eval(dependencies);		
+		}
+		private boolean eval(String dependencies){
+			String script = "function $(modId){"
+					+ "return mods.contains(modId)}; true; ";
+			try {
+				return (Boolean)engine.eval(script + dependencies, binding);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
 		}
 	}
-	
+
 }
