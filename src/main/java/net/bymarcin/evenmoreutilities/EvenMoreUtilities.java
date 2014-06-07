@@ -40,6 +40,7 @@ public class EvenMoreUtilities {
 		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();	
 		modManager = new ModManager();
+		modManager.preInit();
 	}
     
     @EventHandler 
