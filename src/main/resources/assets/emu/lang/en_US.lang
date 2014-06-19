@@ -10,3 +10,6 @@ tile.emu.quarryFixer.name=Quarry Fixer
 tile.emu.RedstoneEmitter.name=Variable Redstone Emitter
 tile.emu.OpenScanner.name=Environmental Scanner
 tile.emu.MultimeterSensor.name=RF Meter
+
+item.emu.kindersurprise.name=Kinder Surprise
+tile.emu.blockCharcoalCoal.name=Block of Charcoal

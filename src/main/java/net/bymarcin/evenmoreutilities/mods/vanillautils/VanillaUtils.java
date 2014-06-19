@@ -6,14 +6,38 @@ import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class VanillaUtils implements IMod{
 	static Integer kinderSurpriseID;
+	static Integer blockCharcoalID;
+	static ItemStack coal = new ItemStack(Item.coal, 1);
 	@Override
 	public void init() {
 		kinderSurpriseID = EvenMoreUtilities.instance.config.getBlock("ItemsId","KinderSurpriseID", 1011).getInt();
 	    GameRegistry.registerItem(KinderSurprise.instance, StaticValues.modId+":KinderSurprise");
+	    GameRegistry.addShapedRecipe(new ItemStack(KinderSurprise.instance,1),
+	    		"BSB",
+	    		"SES",
+	    		"BMB",
+	    		'M',Item.bucketMilk,
+	    		'E',Item.egg,
+	    		'S',Item.sugar,
+	    		'B',Item.arrow
+	    		
+	    		);
+	    
+	    
+	    blockCharcoalID = EvenMoreUtilities.instance.config.getBlock("ItemsId","BlockCharcoalID", 1012).getInt();
+	    GameRegistry.registerBlock(BlockCharcoal.instance,StaticValues.modId+":BlockCharcoal");
+	    coal.setItemDamage(1);
+	    GameRegistry.addShapelessRecipe(new ItemStack(BlockCharcoal.instance),
+	    		coal,coal,coal,
+	    		coal,coal,coal,
+	    		coal,coal,coal);
+	    
+	    GameRegistry.registerFuelHandler(new FuelHandler());
 	    
 	    
 		KinderSurprise.addDrop(5F, Item.appleRed);
