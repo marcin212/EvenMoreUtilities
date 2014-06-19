@@ -10,15 +10,16 @@ import net.minecraft.client.renderer.texture.IconRegister;
 
 public class BlockCharcoal extends Block{
 	public static BlockCharcoal instance = new BlockCharcoal(VanillaUtils.blockCharcoalID);
+	
 	public BlockCharcoal(int id) {
 		super(id, Material.rock);
 		setHardness(5.0F);
 		setResistance(10.0F);
 		setStepSound(soundStoneFootstep);
 		setUnlocalizedName("emu.blockCharcoalCoal");
-		setCreativeTab(EvenMoreUtilities.instance.tabCustom);
-		
+		setCreativeTab(EvenMoreUtilities.instance.tabCustom);	
 	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister icon) {

@@ -2,13 +2,11 @@ package net.bymarcin.evenmoreutilities;
 
 import java.util.logging.Logger;
 
-import net.bymarcin.evenmoreutilities.utils.Sounds;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -19,8 +17,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid=StaticValues.modId, name=StaticValues.modName, version="0.0.1")
 @NetworkMod(clientSideRequired=true, serverSideRequired=true)

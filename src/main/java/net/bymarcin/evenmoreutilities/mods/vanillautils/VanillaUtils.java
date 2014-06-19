@@ -3,8 +3,7 @@ package net.bymarcin.evenmoreutilities.mods.vanillautils;
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
 import net.bymarcin.evenmoreutilities.IMod;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -13,6 +12,7 @@ public class VanillaUtils implements IMod{
 	static Integer kinderSurpriseID;
 	static Integer blockCharcoalID;
 	static ItemStack coal = new ItemStack(Item.coal, 1);
+	
 	@Override
 	public void init() {
 		kinderSurpriseID = EvenMoreUtilities.instance.config.getBlock("ItemsId","KinderSurpriseID", 1011).getInt();
@@ -21,13 +21,7 @@ public class VanillaUtils implements IMod{
 	    		"BSB",
 	    		"SES",
 	    		"BMB",
-	    		'M',Item.bucketMilk,
-	    		'E',Item.egg,
-	    		'S',Item.sugar,
-	    		'B',Item.arrow
-	    		
-	    		);
-	    
+	    		'M', Item.bucketMilk, 'E', Item.egg, 'S', Item.sugar, 'B', Item.arrow);
 	    
 	    blockCharcoalID = EvenMoreUtilities.instance.config.getBlock("ItemsId","BlockCharcoalID", 1012).getInt();
 	    GameRegistry.registerBlock(BlockCharcoal.instance,StaticValues.modId+":BlockCharcoal");
@@ -39,12 +33,12 @@ public class VanillaUtils implements IMod{
 	    
 	    GameRegistry.registerFuelHandler(new FuelHandler());
 	    
-	    
 		KinderSurprise.addDrop(5F, Item.appleRed);
-		KinderSurprise.addDrop(2F, Item.appleGold);
-		KinderSurprise.addDrop(2F, EntityZombie.class);
-		KinderSurprise.addDrop(3F, EntitySkeleton.class);
-		
+		KinderSurprise.addDrop(3F, EntityPig.class);
+		/*TODO Drop List
+			KinderSurprise.addDrop(2F, Item.appleGold);
+			KinderSurprise.addDrop(2F, EntityZombie.class);	
+		*/
 	}
 
 	@Override
@@ -52,5 +46,4 @@ public class VanillaUtils implements IMod{
 		// TODO Auto-generated method stub
 		
 	}
-
 }

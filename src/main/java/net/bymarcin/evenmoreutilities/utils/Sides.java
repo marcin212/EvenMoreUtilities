@@ -21,7 +21,5 @@ public enum Sides {
 				case BOTTOM: return ForgeDirection.getOrientation(ordinal());
 			}
 			return front;
-	
-	}
-	
+	}	
 }

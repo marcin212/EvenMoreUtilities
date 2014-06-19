@@ -26,7 +26,6 @@ public class KinderSurprise extends Item{
 	public static KinderSurprise instance =new KinderSurprise(VanillaUtils.kinderSurpriseID);
 	public static TreeMap<Float,Class<? extends EntityLiving>> livingDrops = new TreeMap<Float, Class<? extends EntityLiving>>();
 	
-	
 	public KinderSurprise(int id) {
 		super(id);
 		setCreativeTab(EvenMoreUtilities.instance.tabCustom);
@@ -35,7 +34,6 @@ public class KinderSurprise extends Item{
 		
 	}
 
-	
 	@Override
 	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player) {
 		float decision = rand.nextFloat() * 10;

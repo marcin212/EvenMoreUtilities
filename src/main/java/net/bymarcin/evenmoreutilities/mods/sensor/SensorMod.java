@@ -23,12 +23,10 @@ public class SensorMod implements IMod{
     	GameRegistry.addRecipe(new ItemStack(BlockSensor.instance), "ggg", "xyx", "ggg",
             'x', coil, 'y', machinframe, 'g', Block.glass);
     	ComputerCraftAPI.registerPeripheralProvider(new CCPeripheralProvider());
-	
 	}
 
 	@Override
 	public void load() {
-		// TODO Auto-generated method stub
 		
 	}
 
