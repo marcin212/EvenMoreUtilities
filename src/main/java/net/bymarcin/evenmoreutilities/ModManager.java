@@ -17,12 +17,15 @@ public class ModManager {
 
 	
 	private void addMods(){
-		addMod("quarryfixer.QuarryFixerMod", 	"$('BuildCraft|Energy')" , 	"QuarryFixerMod");
-		addMod("energysiphon.EnergySiphonMod", 	"$('ThermalExpansion')", 	"EnergySiphonMod");
-		addMod("sensor.SensorMod",  			"$('ThermalExpansion') && $('ComputerCraft')" , "SensorMod");
-		addMod("scanner.ScannerMod", 			"$('OpenComponents')", 		"ScannerMod");
-		addMod("redstonemitter.RedstoneEmitterMod", "", 					"RedstoneEmitterMod");
-		addMod("nfc.NFCMod",					"$('OpenComponents')" , 	"NFCMod");
+		addMod("quarryfixer.QuarryFixerMod", 					"$('BuildCraft|Energy')" , 	"QuarryFixerMod");
+		addMod("energysiphon.EnergySiphonMod", 					"$('ThermalExpansion')", 	"EnergySiphonMod");
+		addMod("sensor.SensorMod",  		"$('ThermalExpansion') && $('ComputerCraft')" , "SensorMod");
+		addMod("scanner.ScannerMod", 							"$('OpenComponents')", 		"ScannerMod");
+		addMod("redstonemitter.RedstoneEmitterMod", 			"", 						"RedstoneEmitterMod");
+		addMod("nfc.NFCMod",									"$('OpenComponents')" ,		"NFCMod");
+		addMod("additionalconverters.ModAdditionalConverters",	"$('OpenComponents')" , 	"AdditionalConverters");
+		addMod("yelloriumenhancement.YE",						"$('ExtraBees') && $('BigReactors')","YE");
+		addMod("vanillautils.VanillaUtils",						"",							"VanillaUtils");
 	}
 	
 	
