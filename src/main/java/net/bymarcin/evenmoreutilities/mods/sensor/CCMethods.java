@@ -1,9 +1,12 @@
 package net.bymarcin.evenmoreutilities.mods.sensor;
 
+import net.bymarcin.evenmoreutilities.utils.Sides;
 import net.minecraftforge.common.ForgeDirection;
 
 public class CCMethods {
 	TileEntitySensor sensor;
+	public static final int[] metadataToForgeDirections = {3,4,2,5};
+	
 	public CCMethods(TileEntitySensor t) {
 		sensor = t;
 	}
@@ -59,12 +62,19 @@ public class CCMethods {
 	public Object[] getIn(){
 		return new Object[]{ForgeDirection.getOrientation(sensor.getIn()).toString()};
 	}
-
-	public Object[] setIn(Object[] args){
-		if(args.length==1)
-			return new Object[]{sensor.setIn(ForgeDirection.valueOf(((String)args[0]).toUpperCase()).ordinal())};
-		else
+	
+	public Object[] setIn(Object[] args){ 
+		if(args.length==1){
+			try{
+				return new Object[]{sensor.setIn(ForgeDirection.valueOf(((String)args[0]).toUpperCase()).ordinal())};
+			}catch(Exception e){
+				int face = metadataToForgeDirections[sensor.blockMetadata & 3];
+				ForgeDirection front =  ForgeDirection.getOrientation(face);
+				return new Object[]{sensor.setIn(Sides.valueOf(((String)args[0]).toUpperCase()).getForgeDirection(front).ordinal())};
+			}
+		}else{
 			return new Object[]{false};
+		}		
 	}
 
 	public Object[] getOut(){
@@ -72,10 +82,17 @@ public class CCMethods {
 	}
 	
 	public Object[] setOut(Object[] args){
-		if(args.length==1)
-			return new Object[]{sensor.setOut(ForgeDirection.valueOf(((String)args[0]).toUpperCase()).ordinal())};
-		else
+		if(args.length==1){
+			try{
+				return new Object[]{sensor.setIn(ForgeDirection.valueOf(((String)args[0]).toUpperCase()).ordinal())};
+			}catch(Exception e){
+				int face = metadataToForgeDirections[sensor.blockMetadata & 3];
+				ForgeDirection front =  ForgeDirection.getOrientation(face);
+				return new Object[]{sensor.setOut(Sides.valueOf(((String)args[0]).toUpperCase()).getForgeDirection(front).ordinal())};
+			}
+		}else{
 			return new Object[]{false};
+		}		
 	}
 
 	public Object[] getAvg(){
