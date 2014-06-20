@@ -10,3 +10,6 @@ tile.emu.quarryFixer.name=Naprawiacz Kopalni
 tile.emu.RedstoneEmitter.name=Regulowany Emiter Czerwonego Proszku
 tile.emu.OpenScanner.name=Skaner Otoczenia
 tile.emu.MultimeterSensor.name=Miernik Przepływu Fluksu Redstone
+
+item.emu.kindersurprise.name=Kinder Niespodzianka
+tile.emu.blockCharcoalCoal.name=Blok Węgla Drzewnego
