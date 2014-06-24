@@ -68,11 +68,12 @@ public class EvenMoreUtilities {
          */
         NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
         NetworkRegistry.instance().registerChannel(new PacketHandler(), StaticValues.modId);	
+        
+        modManager.postInit();
     }
     
     @EventHandler
     public void postInit(FMLPostInitializationEvent event){
-    	modManager.postInit();
     	modManager.load();
     	config.save();
     	Logger.getLogger(StaticValues.modId).info("Finish init!");

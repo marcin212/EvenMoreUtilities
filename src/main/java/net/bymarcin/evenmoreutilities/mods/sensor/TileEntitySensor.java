@@ -22,7 +22,6 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 	CCMethods ccManager = new CCMethods(this);
 	int config = ((1)|(0<<3));
 	
-	
 	double avg = 0;
 	boolean isBlockedFlow = false;
 	
