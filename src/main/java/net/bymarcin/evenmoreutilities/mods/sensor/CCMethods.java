@@ -25,7 +25,9 @@ public class CCMethods {
 		"boolean setOut(String Direction)",
 		"double getAvg()",
 		"int getRateLimit()",
-		"boolean setRateLimit(int outLimit<max 10000>)"};
+		"boolean setRateLimit(int outLimit<max 10000>)",
+		"String getName()",
+		"boolean setName(String name)"};
 	}
 	
 	public Object[] canFlow(){
@@ -109,5 +111,17 @@ public class CCMethods {
 		else
 			return new Object[]{false};
 	}
-
+	
+	public Object[] getName(Object[] args){
+		return new Object[]{sensor.getName()};
+	}
+	
+	public Object[] setName(Object[] args){
+		if(args.length == 1){
+			sensor.setName((String)args[0]);
+			return new Object[]{true};
+		}else{
+			return new Object[]{false};
+		}
+	}
 }

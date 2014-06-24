@@ -34,6 +34,7 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 	
 	int outLimit = maxFlow;
 	
+	String name;
 	
 	public TileEntitySensor() {
 		storage.setCapacity(maxFlow);
@@ -113,7 +114,9 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 				"getAvg",
 				"getRateLimit",
 				"setRateLimit",
-				"listMethods"};
+				"listMethods",
+				"getName",
+				"setName"};
 	}
 
 	@Override
@@ -134,6 +137,8 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 		case 11: return ccManager.getRateLimit();
 		case 12: return ccManager.setRateLimit(arguments);
 		case 13: return ccManager.listMethods();
+		case 14: return ccManager.getName(arguments);
+		case 15: return ccManager.setName(arguments);
 		}
 		return null;
 	}
@@ -230,6 +235,14 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 	public int getRateLimit() {
 		return outLimit;
 	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public boolean setRateLimit(int outLimit) {
 		if (outLimit<=maxFlow){
@@ -251,6 +264,7 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 		nbt.setInteger("in", in);
 		nbt.setInteger("out", out);
 		nbt.setInteger("outLimit", outLimit);
+		nbt.setString("sensorName", name);
 	}
 	
 	@Override
@@ -264,6 +278,7 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 		in = nbt.getInteger("in");
 		out = nbt.getInteger("out");
 		outLimit = nbt.getInteger("outLimit");
+		name = nbt.getString("sensorName");
 	}
     @Override
     public Packet getDescriptionPacket()
