@@ -34,13 +34,11 @@ public class TileEntityGlass extends RectangularMultiblockTileEntityBase{
 
 	@Override
 	public void onMachineActivated() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onMachineDeactivated() {
-		// TODO Auto-generated method stub
 		
 	}
 

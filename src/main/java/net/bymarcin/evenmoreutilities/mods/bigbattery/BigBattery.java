@@ -3,7 +3,6 @@ package net.bymarcin.evenmoreutilities.mods.bigbattery;
 import java.util.HashSet;
 import java.util.Set;
 
-import cofh.api.energy.EnergyStorage;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPowerTap;
 import net.minecraft.block.Block;
@@ -25,7 +24,8 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	private Set<TileEntityPowerTap> powerTaps;
 	private Set<TileEntityControler> controlers;
 	private int electrolyte = 0;
-	private EnergyStorage storage = new EnergyStorage(Integer.MAX_VALUE,10000,10000);;
+	private int maxOutput = 0;
+	private AdvancedStorage storage = new AdvancedStorage(Integer.MAX_VALUE,10000,10000);
 	int i = 0;
 	
 	public BigBattery(World world) {
@@ -34,7 +34,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		controlers = new HashSet<TileEntityControler>();
 	}
 
-	public EnergyStorage getStorage() {
+	public AdvancedStorage getStorage() {
 		return storage;
 	}
 	
@@ -45,9 +45,8 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	
 	@Override
 	protected void onMachineAssembled() {	
-		storage.setCapacity(electrolyte);
 		FMLLog.info("Machine %d ASSEMBLED", hashCode());
-		FMLLog.info("Zawieram %d -powerTaps and %d -controlers and %d-electrolyte", powerTaps.size(),controlers.size(), electrolyte);
+		FMLLog.info("Zawieram %d -powerTaps and %d -controlers and %d-electrolyte maxoutput: %d", powerTaps.size(),controlers.size(), electrolyte, maxOutput);
 	}
 	
 	public boolean isSourceFluid(int x, int y, int z){
@@ -111,6 +110,10 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 				}
 			}
 		}
+		storage.setCapacity(electrolyte);
+		
+		maxOutput = 10000 * (getMaximumCoord().y - getMinimumCoord().y - 1);
+		storage.setMaxTransfer(maxOutput);
 		
 		if(electrolyte == 0){
 			throw new MultiblockValidationException("BigBattery must have electrolyte");	
@@ -160,7 +163,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	protected boolean updateServer() {
 		if(electrolyte==0) return false;
 		for(TileEntityPowerTap powerTap: powerTaps){
-			powerTap.onTransferEnergy();
+			powerTap.onTransferEnergy(maxOutput);
 		}
 		return true;
 	}
@@ -210,6 +213,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		data.setInteger("electrolyte", electrolyte);
+		data.setInteger("transfer", maxOutput);
 		storage.writeToNBT(data);	
 	}
 
@@ -218,12 +222,18 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		if(data.hasKey("electrolyte")){
 			electrolyte = data.getInteger("electrolyte");
 		}
+		if(data.hasKey("transfer")){
+			maxOutput = data.getInteger("transfer");
+		}		
+		
+		
 		storage.readFromNBT(data);
 	}
 
 	@Override
 	public void formatDescriptionPacket(NBTTagCompound data) {
 		data.setInteger("electrolyte", electrolyte);
+		data.setInteger("transfer", maxOutput);
 		storage.writeToNBT(data);
 	}
 
@@ -232,6 +242,9 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		if(data.hasKey("electrolyte")){
 			electrolyte = data.getInteger("electrolyte");
 		}
+		if(data.hasKey("transfer")){
+			maxOutput = data.getInteger("transfer");
+		}	
 		storage.readFromNBT(data);
 	}
 }

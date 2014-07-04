@@ -55,12 +55,12 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 		
 	}
 	
-	public void onTransferEnergy(){
+	public void onTransferEnergy(int energyMax){
 			if(ServerHelper.isClientWorld(worldObj) || isOutput() || getMultiblockController()==null) return;
 			TileEntity tile = BlockHelper.getAdjacentTileEntity(this, ForgeDirection.UP);
 			int energyGet=0;
 			if (EnergyHelper.isEnergyHandlerFromSide(tile,ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)])){
-				energyGet = ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)], Math.min(10000, ((BigBattery)getMultiblockController()).getStorage().getEnergyStored()), false); 
+				energyGet = ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)], Math.min(energyMax, ((BigBattery)getMultiblockController()).getStorage().getEnergyStored()), false); 
 			}  
 			((BigBattery)getMultiblockController()).getStorage().modifyEnergyStored(-energyGet);
 	}
@@ -78,7 +78,7 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	/* IEnergyHandler */
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
-		if(getMultiblockController()!=null && isOutput()){
+		if(getMultiblockController()!=null && isOutput() && getMultiblockController().isAssembled()){
 			return ((BigBattery)getMultiblockController()).getStorage().receiveEnergy(maxReceive, simulate);
 		}
 		return 0;
@@ -86,7 +86,7 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
-		if(getMultiblockController()!=null && !isOutput()){
+		if(getMultiblockController()!=null && !isOutput() && getMultiblockController().isAssembled()){
 			return ((BigBattery)getMultiblockController()).getStorage().extractEnergy(maxExtract, simulate);
 		}
 		return 0;
