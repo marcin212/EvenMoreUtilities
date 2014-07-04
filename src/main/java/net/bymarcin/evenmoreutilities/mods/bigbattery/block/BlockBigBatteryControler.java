@@ -23,9 +23,12 @@ public class BlockBigBatteryControler extends BlockMultiblockBase{
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityControler();
 	}
-
+	@Override
+	public Icon getIcon(int par1, int par2) {
+		return icon;
+	}
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
-		//iconRegister.registerIcon(StaticValues.modId+":");
+		icon = iconRegister.registerIcon(StaticValues.modId+":controler");
 	}
 }
