@@ -5,6 +5,7 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityContr
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -25,6 +26,16 @@ public class BlockBigBatteryControler extends BlockMultiblockBase{
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityControler();
 	}
+	
+	@Override
+	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
+		if(player.isSneaking()) {
+			return false;
+		}
+		player.openGui(EvenMoreUtilities.instance, 3, world, x, y, z);
+		return true;
+	}
+	
 	
 	@Override
 	public Icon getIcon(int par1, int par2) {

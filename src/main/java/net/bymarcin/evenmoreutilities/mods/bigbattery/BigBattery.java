@@ -3,17 +3,24 @@ package net.bymarcin.evenmoreutilities.mods.bigbattery;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.EnergyUpdatePacket;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPowerTap;
+import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowing;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.BlockStationary;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import cpw.mods.fml.common.FMLLog;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 import erogenousbeef.core.multiblock.IMultiblockPart;
 import erogenousbeef.core.multiblock.MultiblockControllerBase;
 import erogenousbeef.core.multiblock.MultiblockValidationException;
@@ -23,6 +30,12 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 
 	private Set<TileEntityPowerTap> powerTaps;
 	private Set<TileEntityControler> controlers;
+	private Set<EntityPlayer> updatePlayers;
+	private TileEntityControler controler;
+	private short lastUpdate = 0; 
+	
+	
+	
 	private long electrolyte = 0;
 	private int maxOutput = 0;
 	private AdvancedStorage storage = new AdvancedStorage(Long.MAX_VALUE,10000,10000);
@@ -32,8 +45,38 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		super(world);
 		powerTaps = new HashSet<TileEntityPowerTap>();
 		controlers = new HashSet<TileEntityControler>();
+		updatePlayers = new HashSet<EntityPlayer>();
 	}
 
+	
+	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
+		updatePlayers.add(playerToUpdate);
+		sendIndividualUpdate(playerToUpdate);
+	}	
+
+	protected void sendIndividualUpdate(EntityPlayer player) {
+		if(this.worldObj.isRemote) { return; }
+		
+		PacketDispatcher.sendPacketToPlayer(getUpdatePacket(), (Player)player);
+	}
+	
+	protected Packet getUpdatePacket(){
+	     return new EnergyUpdatePacket(controler.xCoord, controler.yCoord, controler.zCoord, storage.getRealEnergyStored(), storage.getRealMaxEnergyStored(), maxOutput).makePacket();
+	}
+	
+	public void onPacket(long capacity, long storage, int transfer){
+		electrolyte = capacity;
+		getStorage().setCapacity(capacity);
+		getStorage().setEnergyStored(storage);
+		maxOutput = transfer;
+		getStorage().setMaxTransfer(transfer);
+	}
+	
+	
+	public void stopUpdatingPlayer(EntityPlayer playerToRemove) {
+		updatePlayers.remove(playerToRemove);
+	}
+	
 	public AdvancedStorage getStorage() {
 		return storage;
 	}
@@ -44,7 +87,9 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	}
 	
 	@Override
-	protected void onMachineAssembled() {	
+	protected void onMachineAssembled() {
+		for(TileEntityControler c: controlers)
+			controler = c;
 		FMLLog.info("Machine %d ASSEMBLED", hashCode());
 		FMLLog.info("Zawieram %d -powerTaps and %d -controlers and %d-electrolyte maxoutput: %d", powerTaps.size(),controlers.size(), electrolyte, maxOutput);
 	}
@@ -161,6 +206,16 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		for(TileEntityPowerTap powerTap: powerTaps){
 			powerTap.onTransferEnergy(maxOutput);
 		}
+		
+		if(lastUpdate%4==0){
+			Packet packet = getUpdatePacket();
+			for(EntityPlayer p: updatePlayers){
+				PacketDispatcher.sendPacketToPlayer(packet, (Player)p);
+			}
+			lastUpdate =0;
+		}
+		lastUpdate++;
+		
 		return true;
 	}
 

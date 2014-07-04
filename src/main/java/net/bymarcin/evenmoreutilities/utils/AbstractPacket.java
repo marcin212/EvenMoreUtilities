@@ -1,5 +1,6 @@
 package net.bymarcin.evenmoreutilities.utils;
 
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.EnergyUpdatePacket;
 import net.bymarcin.evenmoreutilities.mods.redstonemitter.PacketRedstoneChange;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.packet.Packet;
@@ -20,6 +21,8 @@ public abstract class AbstractPacket {
 	static {
 		ImmutableBiMap.Builder<Integer, Class<? extends AbstractPacket>> builder = ImmutableBiMap.builder();
 		builder.put(Integer.valueOf(0), PacketRedstoneChange.class);
+		builder.put(Integer.valueOf(1), EnergyUpdatePacket.class);
+		
 		idMap = builder.build();
 	}
 

@@ -143,4 +143,16 @@ public class AdvancedStorage implements IEnergyStorage{
 		return (capacity <= Integer.MAX_VALUE)?(int) capacity:Integer.MAX_VALUE;
 	}
 	
+	public long getRealEnergyStored() {
+		return energy;
+	}
+
+	public long getRealMaxEnergyStored() {
+		return capacity;
+	}
+	
+	
+	
+	
+	
 }
