@@ -11,7 +11,9 @@ import net.minecraft.world.World;
 import erogenousbeef.core.multiblock.BlockMultiblockBase;
 
 public class BlockBigBatteryControler extends BlockMultiblockBase{
-	public static Icon icon ;
+	public static Icon iconSideOn;
+	public static Icon iconSideOff;
+	public static Icon icon;
 	public BlockBigBatteryControler(int id) {
 		super(id, Material.iron);
 		this.setCreativeTab(EvenMoreUtilities.instance.tabCustom);
@@ -23,12 +25,20 @@ public class BlockBigBatteryControler extends BlockMultiblockBase{
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityControler();
 	}
+	
 	@Override
 	public Icon getIcon(int par1, int par2) {
-		return icon;
+		if(par1 ==0 || par1 == 1) return icon;
+		if(par2==0)
+			return iconSideOff;
+		else
+			return iconSideOn;
 	}
+	
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
-		icon = iconRegister.registerIcon(StaticValues.modId+":controler");
+		icon = iconRegister.registerIcon(StaticValues.modId+":bb_part");
+		iconSideOff = iconRegister.registerIcon(StaticValues.modId+":bb_controler_off");
+		iconSideOn = iconRegister.registerIcon(StaticValues.modId+":bb_controler_on");
 	}
 }

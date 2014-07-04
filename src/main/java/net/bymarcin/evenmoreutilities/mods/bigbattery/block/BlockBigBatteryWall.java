@@ -37,7 +37,7 @@ public class BlockBigBatteryWall extends BlockMultiblockBase {
 
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
-		icon = iconRegister.registerIcon(StaticValues.modId + ":wall");
+		icon = iconRegister.registerIcon(StaticValues.modId + ":bb_part");
 	}
 	
 	@Override

@@ -9,10 +9,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import erogenousbeef.core.multiblock.BlockMultiblockBase;
 
 public class BlockBigBatteryPowerTap extends BlockMultiblockBase{
-	public static Icon icon ;
+	public static Icon icon;
+	public static Icon iconTopIn;
+	public static Icon iconTopOut;
+	
 	public BlockBigBatteryPowerTap(int id) {
 		super(id, Material.iron);
 		this.setCreativeTab(EvenMoreUtilities.instance.tabCustom);
@@ -40,15 +44,20 @@ public class BlockBigBatteryPowerTap extends BlockMultiblockBase{
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityPowerTap();
 	}
+	
 	@Override
 	public Icon getIcon(int par1, int par2) {
+		if(par1 != ForgeDirection.UP.ordinal()) return icon;
 		if(par2==0)
-			return icon;
+			return iconTopIn;
 		else
-			return null;
+			return iconTopOut;
 	}
+	
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
-		icon = iconRegister.registerIcon(StaticValues.modId+":powertap");
+		icon = iconRegister.registerIcon(StaticValues.modId+":bb_part");
+		iconTopOut = iconRegister.registerIcon(StaticValues.modId+":bb_output");
+		iconTopIn = iconRegister.registerIcon(StaticValues.modId+":bb_input");
 	}
 }

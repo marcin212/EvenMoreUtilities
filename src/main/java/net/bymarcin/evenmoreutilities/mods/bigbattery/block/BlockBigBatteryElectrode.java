@@ -29,6 +29,6 @@ public class BlockBigBatteryElectrode extends BlockMultiblockBase{
 	}
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
-		icon = iconRegister.registerIcon(StaticValues.modId+":electrode");
+		icon = iconRegister.registerIcon(StaticValues.modId+":bb_electrode");
 	}
 }

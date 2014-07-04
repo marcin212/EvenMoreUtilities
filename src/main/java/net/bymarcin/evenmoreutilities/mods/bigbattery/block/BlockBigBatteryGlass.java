@@ -29,6 +29,10 @@ public class BlockBigBatteryGlass extends BlockMultiblockBase{
 	}
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
-		icon = iconRegister.registerIcon(StaticValues.modId+":glass");
+		icon = iconRegister.registerIcon(StaticValues.modId+":bb_glass");
+	}
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
 	}
 }
