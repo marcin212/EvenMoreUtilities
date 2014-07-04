@@ -25,14 +25,13 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	private Set<TileEntityPowerTap> powerTaps;
 	private Set<TileEntityControler> controlers;
 	private int electrolyte = 0;
-	private EnergyStorage storage;
+	private EnergyStorage storage = new EnergyStorage(Integer.MAX_VALUE,10000,10000);;
 	int i = 0;
 	
 	public BigBattery(World world) {
 		super(world);
 		powerTaps = new HashSet<TileEntityPowerTap>();
 		controlers = new HashSet<TileEntityControler>();
-		storage = new EnergyStorage(0,10000,10000);
 	}
 
 	public EnergyStorage getStorage() {
@@ -46,9 +45,8 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	
 	@Override
 	protected void onMachineAssembled() {	
-		storage.setCapacity(electrolyte*50000000);
+		storage.setCapacity(electrolyte);
 		FMLLog.info("Machine %d ASSEMBLED", hashCode());
-		FMLLog.info("Machine capacity %d ", storage.getMaxEnergyStored());
 		FMLLog.info("Zawieram %d -powerTaps and %d -controlers and %d-electrolyte", powerTaps.size(),controlers.size(), electrolyte);
 	}
 	
@@ -109,13 +107,17 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		for(int x=getMinimumCoord().x; x < getMaximumCoord().x; x++){
 			for(int y=getMinimumCoord().y; y < getMaximumCoord().y; y++){
 				for(int z=getMinimumCoord().z; z < getMaximumCoord().z; z++){
-					electrolyte += checkElectrolyte(x,y,z);
+					electrolyte += checkElectrolyte(x,y,z)*50000000;
 				}
 			}
 		}
 		
 		if(electrolyte == 0){
 			throw new MultiblockValidationException("BigBattery must have electrolyte");	
+		}
+		
+		if(electrolyte > Integer.MAX_VALUE){
+			throw new MultiblockValidationException("Electrolyte overflow integer");	
 		}
 		
 		super.isMachineWhole();
@@ -132,8 +134,6 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		int blockId = world.getBlockId(x, y, z);
 		throw new MultiblockValidationException(String.format("%d, %d, %d - Unrecognized block with ID %d, not valid for the reactor's interior", x, y, z, blockId));	
 	}
-	
-	
 	
 	@Override
 	protected int getMinimumNumberOfBlocksForAssembledMachine() {
@@ -158,24 +158,16 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 
 	@Override
 	protected boolean updateServer() {
+		if(electrolyte==0) return false;
 		for(TileEntityPowerTap powerTap: powerTaps){
 			powerTap.onTransferEnergy();
 		}
-		if(i%20==0){
-			System.out.println("ENERGY:"+ storage.getEnergyStored());
-			i=0;
-		}
-		i++;
-			return true;
-		//TODO MultiBlockReactor energy
-		//TODO power tap ENERGy
+		return true;
 	}
 
 	@Override
-	public void onAttachedPartWithMultiblockData(IMultiblockPart part,
-			NBTTagCompound data) {
-		// TODO Auto-generated method stub
-		
+	public void onAttachedPartWithMultiblockData(IMultiblockPart part, NBTTagCompound data) {
+		readFromNBT(data);	
 	}
 
 	@Override
@@ -202,43 +194,37 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase assimilated) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void onAssimilated(MultiblockControllerBase assimilator) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void updateClient() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
 		data.setInteger("electrolyte", electrolyte);
-		storage.writeToNBT(data);
-		
+		storage.writeToNBT(data);	
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
-		storage.readFromNBT(data);
 		if(data.hasKey("electrolyte")){
 			electrolyte = data.getInteger("electrolyte");
 		}
+		storage.readFromNBT(data);
 	}
 
 	@Override
 	public void formatDescriptionPacket(NBTTagCompound data) {
 		data.setInteger("electrolyte", electrolyte);
 		storage.writeToNBT(data);
-	
-		
 	}
 
 	@Override
@@ -248,7 +234,4 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		}
 		storage.readFromNBT(data);
 	}
-
-
-
 }

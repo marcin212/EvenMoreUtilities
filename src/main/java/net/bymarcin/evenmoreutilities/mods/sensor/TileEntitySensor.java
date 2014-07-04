@@ -33,7 +33,7 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 	
 	int outLimit = maxFlow;
 	
-	String name;
+	String name ="";
 	
 	public TileEntitySensor() {
 		storage.setCapacity(maxFlow);

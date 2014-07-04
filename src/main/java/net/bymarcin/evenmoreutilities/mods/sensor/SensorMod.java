@@ -19,7 +19,8 @@ public class SensorMod implements IMod{
         GameRegistry.registerTileEntity(TileEntitySensor.class, StaticValues.modId+".Sensor");
         
     	coil = GameRegistry.findItemStack("ThermalExpansion", "powerCoilSilver", 1);
-    	machinframe = GameRegistry.findItemStack("ThermalExpansion", "machineFrame", 1);       
+    	machinframe = GameRegistry.findItemStack("ThermalExpansion", "machineFrame", 1); 
+    	if(coil!=null && machinframe!=null)
     	GameRegistry.addRecipe(new ItemStack(BlockSensor.instance), "ggg", "xyx", "ggg",
             'x', coil, 'y', machinframe, 'g', Block.glass);
     	ComputerCraftAPI.registerPeripheralProvider(new CCPeripheralProvider());
