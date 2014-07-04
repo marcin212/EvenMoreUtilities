@@ -17,6 +17,18 @@ import erogenousbeef.core.multiblock.MultiblockControllerBase;
 
 public class BlockBigBatteryWall extends BlockMultiblockBase {
 	public static Icon icon;
+	public static Icon corner;
+	public static Icon horizontal;
+	public static Icon vertical;
+	public static Icon center;
+
+	  public static final int CASING_METADATA_BASE = 0;
+	  public static final int CASING_CORNER = 1;
+	  public static final int CASING_CENTER = 2;
+	  public static final int CASING_VERTICAL = 3;
+	  public static final int CASING_EASTWEST = 4;
+	  public static final int CASING_NORTHSOUTH = 5;
+	
 
 	public BlockBigBatteryWall(int id) {
 		super(id, Material.iron);
@@ -32,12 +44,25 @@ public class BlockBigBatteryWall extends BlockMultiblockBase {
 
 	@Override
 	public Icon getIcon(int par1, int par2) {
+		switch(par2){
+		case BlockBigBatteryWall.CASING_METADATA_BASE: return icon;
+		case BlockBigBatteryWall.CASING_CORNER: return corner;
+		case BlockBigBatteryWall.CASING_CENTER: return center;
+		case BlockBigBatteryWall.CASING_EASTWEST: return horizontal;
+		case BlockBigBatteryWall.CASING_NORTHSOUTH: return (par1 == 0 || par1 == 1)?vertical:horizontal;
+		case BlockBigBatteryWall.CASING_VERTICAL: return vertical;
+		}
+		
 		return icon;
 	}
 
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
 		icon = iconRegister.registerIcon(StaticValues.modId + ":bb_part");
+		corner = iconRegister.registerIcon(StaticValues.modId + ":bb_corner");
+		horizontal = iconRegister.registerIcon(StaticValues.modId + ":bb_horizontal");
+		vertical = iconRegister.registerIcon(StaticValues.modId + ":bb_vertical");
+		center = iconRegister.registerIcon(StaticValues.modId + ":bb_center");
 	}
 	
 	@Override

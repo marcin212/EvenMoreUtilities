@@ -34,15 +34,26 @@ public class TileEntityControler extends RectangularMultiblockTileEntityBase{
 
 	@Override
 	public void onMachineActivated() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onMachineDeactivated() {
-		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void onMachineAssembled(MultiblockControllerBase controller) {
+		super.onMachineAssembled(controller);
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
+	}
+	
+	@Override
+	public void onMachineBroken() {
+		super.onMachineBroken();
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
+	}
+	
 
 	@Override
 	public MultiblockControllerBase createNewMultiblock() {
