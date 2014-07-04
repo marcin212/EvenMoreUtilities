@@ -94,6 +94,7 @@ public class TileEntityWall extends RectangularMultiblockTileEntityBase {
 		CoordTriplet maxCoord = controller.getMaximumCoord();
 
 		int extremes = 0;
+		@SuppressWarnings("unused")
 		boolean xExtreme, yExtreme, zExtreme;
 		xExtreme = yExtreme = zExtreme = false;
 

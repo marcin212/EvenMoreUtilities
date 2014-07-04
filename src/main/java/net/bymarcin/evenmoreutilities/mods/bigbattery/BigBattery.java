@@ -23,9 +23,9 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 
 	private Set<TileEntityPowerTap> powerTaps;
 	private Set<TileEntityControler> controlers;
-	private int electrolyte = 0;
+	private long electrolyte = 0;
 	private int maxOutput = 0;
-	private AdvancedStorage storage = new AdvancedStorage(Integer.MAX_VALUE,10000,10000);
+	private AdvancedStorage storage = new AdvancedStorage(Long.MAX_VALUE,10000,10000);
 	int i = 0;
 	
 	public BigBattery(World world) {
@@ -119,10 +119,6 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 			throw new MultiblockValidationException("BigBattery must have electrolyte");	
 		}
 		
-		if(electrolyte > Integer.MAX_VALUE){
-			throw new MultiblockValidationException("Electrolyte overflow integer");	
-		}
-		
 		super.isMachineWhole();
 	}
 	
@@ -140,7 +136,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	
 	@Override
 	protected int getMinimumNumberOfBlocksForAssembledMachine() {
-		return 3*3*3;
+		return 3*3*4;
 	}
 
 	@Override
@@ -212,15 +208,15 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 
 	@Override
 	public void writeToNBT(NBTTagCompound data) {
-		data.setInteger("electrolyte", electrolyte);
+		data.setLong("Electrolyte", electrolyte);
 		data.setInteger("transfer", maxOutput);
 		storage.writeToNBT(data);	
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound data) {
-		if(data.hasKey("electrolyte")){
-			electrolyte = data.getInteger("electrolyte");
+		if(data.hasKey("Electrolyte")){
+			electrolyte = data.getLong("Electrolyte");
 		}
 		if(data.hasKey("transfer")){
 			maxOutput = data.getInteger("transfer");
@@ -232,15 +228,15 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 
 	@Override
 	public void formatDescriptionPacket(NBTTagCompound data) {
-		data.setInteger("electrolyte", electrolyte);
+		data.setLong("Electrolyte", electrolyte);
 		data.setInteger("transfer", maxOutput);
 		storage.writeToNBT(data);
 	}
 
 	@Override
 	public void decodeDescriptionPacket(NBTTagCompound data) {
-		if(data.hasKey("electrolyte")){
-			electrolyte = data.getInteger("electrolyte");
+		if(data.hasKey("Electrolyte")){
+			electrolyte = data.getLong("Electrolyte");
 		}
 		if(data.hasKey("transfer")){
 			maxOutput = data.getInteger("transfer");
