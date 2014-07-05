@@ -32,8 +32,12 @@ public class BlockBigBatteryControler extends BlockMultiblockBase{
 		if(player.isSneaking()) {
 			return false;
 		}
-		player.openGui(EvenMoreUtilities.instance, 3, world, x, y, z);
-		return true;
+		
+		if(((TileEntityControler) world.getBlockTileEntity(x, y, z)).getMultiblockController().isAssembled()){
+			player.openGui(EvenMoreUtilities.instance, 3, world, x, y, z);
+			return true;
+		}
+		return false;
 	}
 	
 	

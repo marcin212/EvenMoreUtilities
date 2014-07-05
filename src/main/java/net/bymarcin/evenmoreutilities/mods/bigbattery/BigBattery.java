@@ -3,19 +3,19 @@ package net.bymarcin.evenmoreutilities.mods.bigbattery;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.BigBatteryContainer;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.EnergyUpdatePacket;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPowerTap;
-import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlowing;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.BlockStationary;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import cpw.mods.fml.common.FMLLog;
@@ -48,6 +48,10 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		updatePlayers = new HashSet<EntityPlayer>();
 	}
 
+	public Container getContainer(EntityPlayer player){
+		return new BigBatteryContainer(controler, player);
+	}
+	
 	
 	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
 		updatePlayers.add(playerToUpdate);

@@ -28,14 +28,13 @@ public class GuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int id, EntityPlayer player, World world,
                     int x, int y, int z) {
             TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-            System.out.println("Class:" + tileEntity.getClass().getCanonicalName());
             if(tileEntity instanceof TileEntityRedstoneEmitter){
                     return new GuiTiny((TileEntityRedstoneEmitter) tileEntity);
             }
             
             if(tileEntity instanceof TileEntityControler){
-            	System.out.println("yeeyClass:");
-            	return new GuiControler((BigBattery) ((TileEntityControler)tileEntity).getMultiblockController());
+            	return new GuiControler((BigBattery) ((TileEntityControler)tileEntity).getMultiblockController(),
+            			((BigBattery) ((TileEntityControler)tileEntity).getMultiblockController()).getContainer(player));
             }
             
             return null;
