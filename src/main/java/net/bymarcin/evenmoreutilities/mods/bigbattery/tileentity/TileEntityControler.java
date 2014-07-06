@@ -45,12 +45,14 @@ public class TileEntityControler extends RectangularMultiblockTileEntityBase{
 	@Override
 	public void onMachineAssembled(MultiblockControllerBase controller) {
 		super.onMachineAssembled(controller);
+		if(this.worldObj.isRemote) return;
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
 	}
 	
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
+		if(this.worldObj.isRemote) return;
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
 	}
 	
