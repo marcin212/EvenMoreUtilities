@@ -13,7 +13,6 @@ public class TileEntityWall extends RectangularMultiblockTileEntityBase {
 	@Override
 	public void onMachineBroken() {
 		super.onMachineBroken();
-		if(this.worldObj.isRemote) { return; }
 		this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, BlockBigBatteryWall.CASING_METADATA_BASE, 2);
 	}
 
@@ -69,9 +68,6 @@ public class TileEntityWall extends RectangularMultiblockTileEntityBase {
 	public void onMachineAssembled(MultiblockControllerBase controller) {
 		super.onMachineAssembled(controller);
 
-		if (this.worldObj.isRemote) {
-			return;
-		}
 		if (controller == null) {
 			throw new IllegalArgumentException(
 					"Being assembled into a null controller. This should never happen. Please report this stacktrace.");
