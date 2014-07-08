@@ -68,7 +68,7 @@ public class EvenMoreUtilities {
         };
         LanguageRegistry.instance().addStringLocalization("itemGroup.EMU", "en_US", StaticValues.modName);
         
-        modManager.postInit();
+        modManager.init();
         /*
          * 
          * Handlers

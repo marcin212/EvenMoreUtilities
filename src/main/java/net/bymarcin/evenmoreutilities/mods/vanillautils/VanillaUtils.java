@@ -11,6 +11,7 @@ public class VanillaUtils implements IMod{
 	static Integer kinderSurpriseID;
 	static Integer blockCharcoalID;
 	static ItemStack coal = new ItemStack(Item.coal, 1);
+	static ItemStack coal9 = new ItemStack(Item.coal, 9,1);
 	
 	@Override
 	public void init() {
@@ -29,6 +30,9 @@ public class VanillaUtils implements IMod{
 	    		coal,coal,coal,
 	    		coal,coal,coal,
 	    		coal,coal,coal);
+	    GameRegistry.addShapelessRecipe(coal9, BlockCharcoal.instance);
+	    
+	    
 	    
 	    GameRegistry.registerFuelHandler(new FuelHandler());
 	    
