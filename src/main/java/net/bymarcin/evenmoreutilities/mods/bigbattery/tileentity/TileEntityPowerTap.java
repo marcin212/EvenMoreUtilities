@@ -1,17 +1,52 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity;
 
+import java.util.Set;
+
+import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBattery;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.PowerTapContener;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.PowerTapUpdatePacket;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
 import cofh.api.energy.IEnergyHandler;
 import cofh.util.BlockHelper;
 import cofh.util.EnergyHelper;
 import cofh.util.ServerHelper;
-import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBattery;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.ForgeDirection;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 import erogenousbeef.core.multiblock.MultiblockControllerBase;
 import erogenousbeef.core.multiblock.MultiblockValidationException;
 import erogenousbeef.core.multiblock.rectangular.RectangularMultiblockTileEntityBase;
 
 public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase implements IEnergyHandler{
+	int transferMax = 0;
+	int transferCurrent = 0;
+	private Set<EntityPlayer> updatePlayers;
+	
+	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
+		updatePlayers.add(playerToUpdate);
+		sendIndividualUpdate(playerToUpdate);
+	}	
+
+	protected void sendIndividualUpdate(EntityPlayer player) {
+		if(this.worldObj.isRemote) { return; }
+		
+		PacketDispatcher.sendPacketToPlayer(getUpdatePacket(), (Player)player);
+	}
+	
+	protected Packet getUpdatePacket(){
+	     return new PowerTapUpdatePacket(xCoord,yCoord,zCoord,transferCurrent,PowerTapUpdatePacket.UPDATE).makePacket();
+	}
+	
+	public void stopUpdatingPlayer(EntityPlayer playerToRemove) {
+		updatePlayers.remove(playerToRemove);
+	}
+	
+	public int getTransferCurrent(){
+		return transferCurrent;
+	}
 	
 	@Override
 	public void isGoodForFrame() throws MultiblockValidationException {
@@ -42,6 +77,13 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	public void isGoodForInterior() throws MultiblockValidationException {
 		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap may not be placed in the battery's interior", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));	
 	}
+	
+	@Override
+	public void onMachineAssembled(MultiblockControllerBase controller) {
+		super.onMachineAssembled(controller);
+		transferMax = ((BigBattery)getMultiblockController()).getStorage().getMaxReceive();
+		transferCurrent = transferMax;
+	}
 
 	@Override
 	public void onMachineActivated() {
@@ -55,16 +97,25 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 		
 	}
 	
-	public void onTransferEnergy(int energyMax){
+	public void onTransferEnergy(){
 			if(ServerHelper.isClientWorld(worldObj) || isOutput() || getMultiblockController()==null) return;
 			TileEntity tile = BlockHelper.getAdjacentTileEntity(this, ForgeDirection.UP);
 			int energyGet=0;
 			if (EnergyHelper.isEnergyHandlerFromSide(tile,ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)])){
-				energyGet = ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)], Math.min(energyMax, ((BigBattery)getMultiblockController()).getStorage().getEnergyStored()), false); 
+				energyGet = ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)], Math.min(transferCurrent, ((BigBattery)getMultiblockController()).getStorage().getEnergyStored()), false); 
 			}  
 			((BigBattery)getMultiblockController()).getStorage().modifyEnergyStored(-energyGet);
 	}
 
+	public void setTransfer(int transfer){
+		transferCurrent = Math.min(transfer, transferMax);	
+	}
+	
+	public Container getContainer(EntityPlayer player){
+		return new PowerTapContener(this, player);
+	}
+	
+	
 	@Override
 	public MultiblockControllerBase createNewMultiblock() {
 		return new BigBattery(this.worldObj);
@@ -118,5 +169,4 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	public boolean isOutput() {
 		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord)==0;
 	}
-
 }

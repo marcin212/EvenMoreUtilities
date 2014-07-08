@@ -208,7 +208,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	protected boolean updateServer() {
 		if(electrolyte==0) return false;
 		for(TileEntityPowerTap powerTap: powerTaps){
-			powerTap.onTransferEnergy(maxOutput);
+			powerTap.onTransferEnergy();
 		}
 		
 		if(lastUpdate%4==0){
