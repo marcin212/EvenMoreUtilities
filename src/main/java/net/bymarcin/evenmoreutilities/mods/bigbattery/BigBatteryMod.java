@@ -6,18 +6,27 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryElect
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryGlass;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryPowerTap;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryWall;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.BigBatteryContainer;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.EnergyUpdatePacket;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.GuiControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityElectrode;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityGlass;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPowerTap;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityWall;
+import net.bymarcin.evenmoreutilities.registry.EMURegistry;
+import net.bymarcin.evenmoreutilities.registry.IGUI;
+import net.bymarcin.evenmoreutilities.registry.IProxy;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import erogenousbeef.core.multiblock.MultiblockClientTickHandler;
 import erogenousbeef.core.multiblock.MultiblockServerTickHandler;
 
-public class BigBatteryMod implements IMod{
+public class BigBatteryMod implements IMod, IGUI, IProxy{
 	
 	BlockBigBatteryControler blockBigBatteryControler;
 	BlockBigBatteryElectrode blockBigBatteryElectrode;
@@ -47,24 +56,41 @@ public class BigBatteryMod implements IMod{
 		GameRegistry.registerBlock(blockBigBatteryControler, "MultiBlockBigBatteryControler");
 		GameRegistry.registerTileEntity(TileEntityControler.class, "BigBatteryTileEntityControler");
 		
-
+		EMURegistry.registerPacket(1, EnergyUpdatePacket.class);
+		EMURegistry.registerGUI(this);
 	}
-
-	
 	
 	@Override
 	public void load() {
 		
 	}
-	
 
-	public static void server(){
-		TickRegistry.registerTickHandler(new MultiblockServerTickHandler(), Side.SERVER);
+	@Override
+	public Object getServerGuiElement(int id, TileEntity blockEntity,
+			EntityPlayer player, World world, int x, int y, int z) {
+   	 	if(blockEntity instanceof TileEntityControler){
+   	 		return new BigBatteryContainer((TileEntityControler) blockEntity, player);
+   	 	}
+		return null;
 	}
-	
-	public static void client(){
+
+	@Override
+	public Object getClientGuiElement(int id, TileEntity blockEntity,
+			EntityPlayer player, World world, int x, int y, int z) {
+        if(blockEntity instanceof TileEntityControler){
+        	return new GuiControler((BigBattery) ((TileEntityControler)blockEntity).getMultiblockController(),
+        			((BigBattery) ((TileEntityControler)blockEntity).getMultiblockController()).getContainer(player));
+        }
+		return null;
+	}
+
+	@Override
+	public void clientSide() {
 		TickRegistry.registerTickHandler(new MultiblockClientTickHandler(), Side.CLIENT);
 	}
-	
 
+	@Override
+	public void serverSide() {
+		TickRegistry.registerTickHandler(new MultiblockServerTickHandler(), Side.SERVER);
+	}
 }

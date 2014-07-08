@@ -1,4 +1,4 @@
-package net.bymarcin.evenmoreutilities;
+package net.bymarcin.evenmoreutilities.handler;
 
 import java.net.ProtocolException;
 import java.util.logging.Logger;

@@ -1,12 +1,9 @@
 package net.bymarcin.evenmoreutilities.utils;
 
-import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.EnergyUpdatePacket;
-import net.bymarcin.evenmoreutilities.mods.redstonemitter.PacketRedstoneChange;
+import net.bymarcin.evenmoreutilities.registry.EMURegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.packet.Packet;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -14,22 +11,11 @@ import com.google.common.io.ByteStreams;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 
-public abstract class AbstractPacket {
+public abstract class AbstractPacket extends EMURegistry{
 	public static final String CHANNEL = StaticValues.modId;
-	private static final BiMap<Integer, Class<? extends AbstractPacket>> idMap;
 
-	static {
-		ImmutableBiMap.Builder<Integer, Class<? extends AbstractPacket>> builder = ImmutableBiMap.builder();
-		builder.put(Integer.valueOf(0), PacketRedstoneChange.class);
-		builder.put(Integer.valueOf(1), EnergyUpdatePacket.class);
-		
-		idMap = builder.build();
-	}
-
-	public static AbstractPacket constructPacket(int packetId)
-			throws ProtocolException, Throwable {
-		Class<? extends AbstractPacket> clazz = idMap.get(Integer
-				.valueOf(packetId));
+	public static AbstractPacket constructPacket(int packetId) throws ProtocolException, Throwable {
+		Class<? extends AbstractPacket> clazz = packet.get(Integer.valueOf(packetId));
 		if (clazz == null) {
 			throw new ProtocolException("Unknown Packet Id!");
 		} else {
@@ -57,8 +43,8 @@ public abstract class AbstractPacket {
 	}
 
 	public final int getPacketId() {
-		if (idMap.inverse().containsKey(getClass())) {
-			return idMap.inverse().get(getClass()).intValue();
+		if (packet.inverse().containsKey(getClass())) {
+			return packet.inverse().get(getClass()).intValue();
 		} else {
 			throw new RuntimeException("Packet " + getClass().getSimpleName()
 					+ " is missing a mapping!");

@@ -2,6 +2,8 @@ package net.bymarcin.evenmoreutilities;
 
 import java.util.logging.Logger;
 
+import net.bymarcin.evenmoreutilities.proxy.CommonProxy;
+import net.bymarcin.evenmoreutilities.registry.EMURegistry;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -17,7 +19,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import erogenousbeef.core.multiblock.MultiblockEventHandler;
 
@@ -30,7 +31,7 @@ public class EvenMoreUtilities {
 	public CreativeTabs tabCustom;
 	
 	
-    @SidedProxy(clientSide="net.bymarcin.evenmoreutilities.client.ClientProxy", serverSide="net.bymarcin.evenmoreutilities.CommonProxy")
+    @SidedProxy(clientSide="net.bymarcin.evenmoreutilities.proxy.ClientProxy", serverSide="net.bymarcin.evenmoreutilities.proxy.CommonProxy")
     public static CommonProxy proxy;
 
     private MultiblockEventHandler multiblockEventHandler;
@@ -51,7 +52,7 @@ public class EvenMoreUtilities {
     @EventHandler 
     public void init(FMLInitializationEvent event) {
     	
-        proxy.registerRenderers();
+        proxy.register();
         /*
          * 
          * Creative Tab
@@ -64,22 +65,23 @@ public class EvenMoreUtilities {
             }
         };
         LanguageRegistry.instance().addStringLocalization("itemGroup.EMU", "en_US", StaticValues.modName);
-   
+        
+        modManager.postInit();
         /*
          * 
          * Handlers
          * 
          */
-        NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
-        NetworkRegistry.instance().registerChannel(new PacketHandler(), StaticValues.modId);	
+        EMURegistry.init();
         
-        modManager.postInit();
+        
     }
     
     @EventHandler
     public void postInit(FMLPostInitializationEvent event){
     	modManager.load();
     	config.save();
+    	EMURegistry.postInit();
     	Logger.getLogger(StaticValues.modId).info("Finish init!");
     }
 

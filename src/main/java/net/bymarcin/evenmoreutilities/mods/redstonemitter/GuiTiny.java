@@ -12,7 +12,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class GuiTiny extends GuiScreen {
+public class GuiTiny extends GuiScreen{
 	public final int xSize = 176;
 	public final int ySize = 88;
 	TileEntityRedstoneEmitter tile;
@@ -94,4 +94,6 @@ public class GuiTiny extends GuiScreen {
 			this.mc.setIngameFocus();
 		}
 	}
+
+
 }
