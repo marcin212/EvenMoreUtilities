@@ -33,7 +33,7 @@ public class SoundsMod implements IProxy, IMod{
 	}
 
 	@Override
-	public void load() {
+	public void postInit() {
 		
 	}
 }

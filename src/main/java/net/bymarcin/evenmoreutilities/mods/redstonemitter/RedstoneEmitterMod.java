@@ -27,7 +27,7 @@ public class RedstoneEmitterMod implements IMod, IGUI{
 	}
 
 	@Override
-	public void load() {
+	public void postInit() {
 		
 	}
 	

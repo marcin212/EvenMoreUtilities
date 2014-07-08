@@ -41,7 +41,7 @@ public class VanillaUtils implements IMod{
 	}
 
 	@Override
-	public void load() {
+	public void postInit() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -57,7 +57,7 @@ public class NFCMod implements IMod{
 	}
 
 	@Override
-	public void load() {
+	public void postInit() {
 		
 	}
 	

@@ -27,7 +27,7 @@ public class SensorMod implements IMod{
 	}
 
 	@Override
-	public void load() {
+	public void postInit() {
 		
 	}
 

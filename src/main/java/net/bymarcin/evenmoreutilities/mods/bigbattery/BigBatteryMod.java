@@ -61,7 +61,7 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 	}
 	
 	@Override
-	public void load() {
+	public void postInit() {
 		
 	}
 

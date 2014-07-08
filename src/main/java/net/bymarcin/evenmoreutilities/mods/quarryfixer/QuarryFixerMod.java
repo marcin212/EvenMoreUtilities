@@ -22,7 +22,7 @@ public class QuarryFixerMod implements IMod{
 	}
 
 	@Override
-	public void load() {
+	public void postInit() {
 		// TODO Auto-generated method stub
 		
 	}

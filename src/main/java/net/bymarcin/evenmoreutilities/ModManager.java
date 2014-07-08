@@ -50,7 +50,7 @@ public class ModManager {
 	
 	
 	
-	public void postInit() {
+	public void init() {
 		for (ModDescription mod : mods) {
 			if (mod.toLoad) {
 				loadMod(mod);
@@ -62,10 +62,10 @@ public class ModManager {
 		}
 	}
 
-	public void load() {
+	public void postInit() {
 		for (ModDescription mod : mods) {
 			if (mod.isLoaded)
-				mod.mod.load();
+				mod.mod.postInit();
 		}
 	}
 

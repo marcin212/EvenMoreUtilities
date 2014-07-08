@@ -73,13 +73,11 @@ public class EvenMoreUtilities {
          * 
          */
         EMURegistry.init();
-        
-        
     }
     
     @EventHandler
     public void postInit(FMLPostInitializationEvent event){
-    	modManager.load();
+    	modManager.postInit();
     	config.save();
     	EMURegistry.postInit();
     	Logger.getLogger(StaticValues.modId).info("Finish init!");

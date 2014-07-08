@@ -16,7 +16,7 @@ public class EnergySiphonMod implements IMod{
 	}
 
 	@Override
-	public void load() {
+	public void postInit() {
 		
 	}
 
