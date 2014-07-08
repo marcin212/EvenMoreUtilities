@@ -41,17 +41,19 @@ public class EvenMoreUtilities {
    
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		Logger.getLogger(StaticValues.modId).info("Start init!");
+		Logger.getLogger(StaticValues.modId).info("Start preInit!");
 
 		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();	
 		modManager = new ModManager();
 		modManager.preInit();
+		
+		Logger.getLogger(StaticValues.modId).info("Finish preInit!");
 	}
     
     @EventHandler 
     public void init(FMLInitializationEvent event) {
-    	
+    	Logger.getLogger(StaticValues.modId).info("Start init!");
         proxy.register();
         /*
          * 
@@ -73,17 +75,18 @@ public class EvenMoreUtilities {
          * 
          */
         EMURegistry.init();
+        Logger.getLogger(StaticValues.modId).info("Finish init!");
     }
     
     @EventHandler
     public void postInit(FMLPostInitializationEvent event){
+    	Logger.getLogger(StaticValues.modId).info("Start postInit!");
     	modManager.postInit();
     	config.save();
     	EMURegistry.postInit();
-    	Logger.getLogger(StaticValues.modId).info("Finish init!");
+    	Logger.getLogger(StaticValues.modId).info("Finish postInit!");
     }
 
-    
 	@EventHandler
 	public void registerServer(FMLServerAboutToStartEvent evt) {
 		multiblockEventHandler = new MultiblockEventHandler();
