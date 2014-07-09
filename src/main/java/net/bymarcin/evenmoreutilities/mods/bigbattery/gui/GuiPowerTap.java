@@ -22,8 +22,8 @@ public class GuiPowerTap extends GuiContainer{
 	public void initGui() {
 		buttonList.clear();
 							//id, x, y, width, height, text
-        plus = new GuiButton(1, 10, 52, 20, 20, "+");
-        minus = new GuiButton(2, 10, 52, 20, 20, "-");
+        plus = new GuiButton(1, 200, 52, 20, 20, "+");
+        minus = new GuiButton(2, 200, 74, 20, 20, "-");
         buttonList.add(minus);
         buttonList.add(plus);
         
@@ -32,16 +32,15 @@ public class GuiPowerTap extends GuiContainer{
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		
-		
+		fontRenderer.drawString(String.valueOf(tile.getTransferCurrent()),40, 52, 0);
 	}
 
 	
 	@Override
 	protected void actionPerformed(GuiButton button) {
 		switch(button.id){
-			case 1: PacketDispatcher.sendPacketToServer(new PowerTapUpdatePacket(tile.xCoord, tile.yCoord, tile.zCoord, tile.getTransferCurrent()+50, PowerTapUpdatePacket.PLUS).makePacket());
-			case 2: PacketDispatcher.sendPacketToServer(new PowerTapUpdatePacket(tile.xCoord, tile.yCoord, tile.zCoord, tile.getTransferCurrent()+50, PowerTapUpdatePacket.MINUS).makePacket());
+			case 1: PacketDispatcher.sendPacketToServer(new PowerTapUpdatePacket(tile.xCoord, tile.yCoord, tile.zCoord, tile.getTransferCurrent()+100, PowerTapUpdatePacket.PLUS).makePacket()); break;
+			case 2: PacketDispatcher.sendPacketToServer(new PowerTapUpdatePacket(tile.xCoord, tile.yCoord, tile.zCoord, tile.getTransferCurrent()-100, PowerTapUpdatePacket.MINUS).makePacket()); break;
 		}
 		
 		super.actionPerformed(button);

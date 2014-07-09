@@ -9,6 +9,8 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryWall;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.BigBatteryContainer;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.EnergyUpdatePacket;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.GuiControler;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.GuiPowerTap;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.PowerTapUpdatePacket;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityElectrode;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityGlass;
@@ -57,6 +59,8 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 		GameRegistry.registerTileEntity(TileEntityControler.class, "BigBatteryTileEntityControler");
 		
 		EMURegistry.registerPacket(1, EnergyUpdatePacket.class);
+		EMURegistry.registerPacket(2, PowerTapUpdatePacket.class);
+		
 		EMURegistry.registerGUI(this);
 	}
 	
@@ -71,6 +75,11 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
    	 	if(blockEntity instanceof TileEntityControler){
    	 		return new BigBatteryContainer((TileEntityControler) blockEntity, player);
    	 	}
+   	 	
+   	 	if(blockEntity instanceof TileEntityPowerTap){
+   	 		return ((TileEntityPowerTap) blockEntity).getContainer(player);
+   	 	}
+   	 	
 		return null;
 	}
 
@@ -81,6 +90,11 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
         	return new GuiControler((BigBattery) ((TileEntityControler)blockEntity).getMultiblockController(),
         			((BigBattery) ((TileEntityControler)blockEntity).getMultiblockController()).getContainer(player));
         }
+        
+        if(blockEntity instanceof TileEntityPowerTap){
+        	return new GuiPowerTap(((TileEntityPowerTap) blockEntity).getContainer(player),(TileEntityPowerTap) blockEntity);
+        }
+        
 		return null;
 	}
 

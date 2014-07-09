@@ -1,5 +1,6 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBattery;
@@ -23,7 +24,7 @@ import erogenousbeef.core.multiblock.rectangular.RectangularMultiblockTileEntity
 public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase implements IEnergyHandler{
 	int transferMax = 0;
 	int transferCurrent = 0;
-	private Set<EntityPlayer> updatePlayers;
+	private Set<EntityPlayer> updatePlayers = new HashSet<EntityPlayer>();
 	
 	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
 		updatePlayers.add(playerToUpdate);
@@ -108,10 +109,25 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	}
 
 	public void setTransfer(int transfer){
-		transferCurrent = Math.min(transfer, transferMax);	
+		transferCurrent = Math.max(0,Math.min(transfer, transferMax));
+		
+	}
+	
+	public void onPacket(int transfer,int typ){
+		switch(typ){
+			case PowerTapUpdatePacket.MINUS: 
+			case PowerTapUpdatePacket.PLUS:setTransfer(transfer); updatePowerTap(); break;
+			case PowerTapUpdatePacket.UPDATE: setTransfer(transfer); updatePowerTap(); break;
+		}
+	}
+	
+	public void updatePowerTap(){
+		for(EntityPlayer p: updatePlayers)
+			PacketDispatcher.sendPacketToPlayer(new PowerTapUpdatePacket(xCoord, yCoord, zCoord, transferCurrent, PowerTapUpdatePacket.UPDATE).makePacket(), (Player) p);
 	}
 	
 	public Container getContainer(EntityPlayer player){
+		updatePowerTap();
 		return new PowerTapContener(this, player);
 	}
 	

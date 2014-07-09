@@ -1,6 +1,5 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.gui;
 
-import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBattery;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPowerTap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

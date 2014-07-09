@@ -28,6 +28,12 @@ public class BlockBigBatteryPowerTap extends BlockMultiblockBase{
 	public boolean onBlockActivated(World world, int par2, int par3,
 			int par4, EntityPlayer player, int par6, float par7,
 			float par8, float par9) {
+		
+		if(player.isSneaking()){
+			player.openGui(EvenMoreUtilities.instance, 0, world, par2, par3, par4);
+			return true;
+		}
+		
 		if(player.getCurrentEquippedItem()==null){
 			if(world.getBlockMetadata(par2, par3, par4)==0){
 				world.setBlockMetadataWithNotify(par2, par3, par4, 1, 2);
