@@ -8,6 +8,7 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.PowerTapContener;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.PowerTapUpdatePacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -83,7 +84,8 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	public void onMachineAssembled(MultiblockControllerBase controller) {
 		super.onMachineAssembled(controller);
 		transferMax = ((BigBattery)getMultiblockController()).getStorage().getMaxReceive();
-		transferCurrent = transferMax;
+		if(transferCurrent > transferMax)
+			transferCurrent=transferMax;
 	}
 
 	@Override
@@ -98,14 +100,15 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 		
 	}
 	
-	public void onTransferEnergy(){
-			if(ServerHelper.isClientWorld(worldObj) || isOutput() || getMultiblockController()==null) return;
+	public int onTransferEnergy(){
+			if(ServerHelper.isClientWorld(worldObj) || isOutput() || getMultiblockController()==null) return 0;
 			TileEntity tile = BlockHelper.getAdjacentTileEntity(this, ForgeDirection.UP);
 			int energyGet=0;
 			if (EnergyHelper.isEnergyHandlerFromSide(tile,ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)])){
 				energyGet = ((IEnergyHandler)tile).receiveEnergy(ForgeDirection.VALID_DIRECTIONS[(1 ^ 0x1)], Math.min(transferCurrent, ((BigBattery)getMultiblockController()).getStorage().getEnergyStored()), false); 
 			}  
 			((BigBattery)getMultiblockController()).getStorage().modifyEnergyStored(-energyGet);
+			return energyGet;
 	}
 
 	public void setTransfer(int transfer){
@@ -184,5 +187,17 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	
 	public boolean isOutput() {
 		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord)==0;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound data) {
+		super.readFromNBT(data);
+		transferCurrent = data.getInteger("transfer");
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound data) {
+		super.writeToNBT(data);
+		data.setInteger("transfer",transferCurrent);
 	}
 }

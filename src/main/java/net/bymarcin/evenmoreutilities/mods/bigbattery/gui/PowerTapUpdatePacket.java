@@ -42,17 +42,11 @@ public class PowerTapUpdatePacket extends AbstractPacket{
 
 	@Override
 	public void read(ByteArrayDataInput in) throws ProtocolException {
-		
 		typ = in.readInt();
-		System.out.println("start"+typ);
 		transfer = in.readInt();
-		System.out.println("start"+transfer);
 		x = in.readInt();
-		System.out.println("start"+x);
 		y = in.readInt();
-		System.out.println("start"+y);
 		z = in.readInt();
-		System.out.println("start"+z);
 	}
 
 	@Override
