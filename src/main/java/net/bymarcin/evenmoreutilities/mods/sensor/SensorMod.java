@@ -5,6 +5,7 @@ import net.bymarcin.evenmoreutilities.IMod;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import dan200.computercraft.api.ComputerCraftAPI;
 
@@ -23,7 +24,8 @@ public class SensorMod implements IMod{
     	if(coil!=null && machinframe!=null)
     	GameRegistry.addRecipe(new ItemStack(BlockSensor.instance), "ggg", "xyx", "ggg",
             'x', coil, 'y', machinframe, 'g', Block.glass);
-    	ComputerCraftAPI.registerPeripheralProvider(new CCPeripheralProvider());
+    	if(Loader.isModLoaded("OpenComponents"))
+    		ComputerCraftAPI.registerPeripheralProvider(new CCPeripheralProvider());
 	}
 
 	@Override

@@ -1,5 +1,9 @@
 package net.bymarcin.evenmoreutilities.mods.sensor;
 
+import li.cil.oc.api.network.Arguments;
+import li.cil.oc.api.network.Callback;
+import li.cil.oc.api.network.Context;
+import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet;
@@ -12,12 +16,14 @@ import cofh.api.energy.TileEnergyHandler;
 import cofh.util.BlockHelper;
 import cofh.util.EnergyHelper;
 import cofh.util.ServerHelper;
+import cpw.mods.fml.common.Optional;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 
-public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
+@Optional.Interface(iface = "li.cil.oc.api.network.SimpleComponent", modid = "OpenComputers")
+public class TileEntitySensor extends TileEnergyHandler implements IPeripheral, SimpleComponent{
 	private static final int maxFlow = 10000;
 	CCMethods ccManager = new CCMethods(this);
 	int config = ((1)|(0<<3));
@@ -136,7 +142,7 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
 		case 11: return ccManager.getRateLimit();
 		case 12: return ccManager.setRateLimit(arguments);
 		case 13: return ccManager.listMethods();
-		case 14: return ccManager.getName(arguments);
+		case 14: return ccManager.getName();
 		case 15: return ccManager.setName(arguments);
 		}
 		return null;
@@ -292,4 +298,86 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral{
     {
      readFromNBT(packet.data);
     }
+
+	@Override
+	public String getComponentName() {
+		return "flow_sensor";
+	}
+	// Open Computers	
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] canFlow(Context context, Arguments args) {
+	        return ccManager.canFlow();
+	        
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] allowOutput(Context context, Arguments args) {
+	    	return ccManager.allowOutput(new Object[]{args.checkBoolean(0)});
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] isLimited(Context context, Arguments args) {
+	        return ccManager.isLimited();
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] setLimited(Context context, Arguments args) {
+	        return ccManager.setLimited(new Object[]{args.checkInteger(0)});
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] getLimit(Context context, Arguments args) {
+	        return ccManager.getLimit();
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] setLimit(Context context, Arguments args) {
+	    	 return ccManager.setLimit(new Object[]{args.checkInteger(0)});
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] getIn(Context context, Arguments args) {
+	        return ccManager.getIn();
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] setIn(Context context, Arguments args) {
+	        return ccManager.setIn(new Object[]{args.checkAny(0)});
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] getOut(Context context, Arguments args) {
+	        return ccManager.getOut();
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] setOut(Context context, Arguments args) {
+	    	return ccManager.setOut(new Object[]{args.checkAny(0)});
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] getAvg(Context context, Arguments args) {
+	        return ccManager.getAvg();
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] getRateLimit(Context context, Arguments args) {
+	        return ccManager.getRateLimit();
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] setRateLimit(Context context, Arguments args) {
+	        return ccManager.setRateLimit(new Object[]{args.checkInteger(0)});
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] getName(Context context, Arguments args) {
+	        return ccManager.getName();
+	    }
+	    @Callback
+	    @Optional.Method(modid = "OpenComputers")
+	    public Object[] setName(Context context, Arguments args) {
+	        return ccManager.setName(new Object[]{args.checkString(0)});
+	    }
 }

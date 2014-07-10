@@ -112,7 +112,7 @@ public class CCMethods {
 			return new Object[]{false};
 	}
 	
-	public Object[] getName(Object[] args){
+	public Object[] getName(){
 		return new Object[]{sensor.getName()};
 	}
 	
