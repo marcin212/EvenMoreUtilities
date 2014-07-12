@@ -68,15 +68,31 @@ public class TileEntityComputerPort extends RectangularMultiblockTileEntityBase 
 		return (BigBattery) getMultiblockController();
 	}
 	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] setIn(Context c, Arguments args){
+		int id = args.checkInteger(0);
 		if(getControler()!=null)
-			;
+			try{
+				((TileEntityPowerTap)getControler().getPowerTaps().toArray()[id]).setIn();
+				return null;
+			}catch(IndexOutOfBoundsException e){
+				return new Object[]{null,"Electrode not found"};
+			}
 		return new Object[]{null,"Controler block not found. Rebuild your battery."};
 	}
 	
+	@Callback
+	@Optional.Method(modid = "OpenComputers")
 	public Object[] setOut(Context c, Arguments args){
+		int id = args.checkInteger(0);
 		if(getControler()!=null)
-			;
+			try{
+				((TileEntityPowerTap)getControler().getPowerTaps().toArray()[id]).setOut();
+				return null;
+			}catch(IndexOutOfBoundsException e){
+				return new Object[]{null,"Electrode not found"};
+			}
 		return new Object[]{null,"Controler block not found. Rebuild your battery."};
 	}
 	
@@ -132,15 +148,11 @@ public class TileEntityComputerPort extends RectangularMultiblockTileEntityBase 
 		return new Object[]{null,"Controler block not found. Rebuild your battery."};
 	}
 	
+    @Callback
+    @Optional.Method(modid = "OpenComputers")
 	public Object[] getEnergyBalanceLastTick(Context c, Arguments args){
 		if(getControler()!=null)
-			;
+			return new Object[]{getControler().getLastTickBalance()};
 		return new Object[]{null,"Controler block not found. Rebuild your battery."};
 	}
-	
-	/*TODO
-	 * zamiana in na out i odwrotnie
-	 * bilans energii w ostatnim ticku
-	 */
-
 }

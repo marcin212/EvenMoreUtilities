@@ -149,7 +149,9 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		if(getMultiblockController()!=null && isOutput() && getMultiblockController().isAssembled()){
-			return ((BigBattery)getMultiblockController()).getStorage().receiveEnergy(Math.min(maxReceive,transferCurrent), simulate);
+			 int temp =((BigBattery)getMultiblockController()).getStorage().receiveEnergy(Math.min(maxReceive,transferCurrent), simulate);
+			 ((BigBattery)getMultiblockController()).modifyLastTickBalance(temp);
+			 return temp;
 		}
 		return 0;
 	}
@@ -157,7 +159,9 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
 		if(getMultiblockController()!=null && !isOutput() && getMultiblockController().isAssembled()){
-			return ((BigBattery)getMultiblockController()).getStorage().extractEnergy(Math.min(maxExtract,transferCurrent), simulate);
+			int temp = ((BigBattery)getMultiblockController()).getStorage().extractEnergy(Math.min(maxExtract,transferCurrent), simulate);
+			 ((BigBattery)getMultiblockController()).modifyLastTickBalance(-temp);
+			return temp;
 		}
 		return 0;
 	}
@@ -199,5 +203,13 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	public void writeToNBT(NBTTagCompound data) {
 		super.writeToNBT(data);
 		data.setInteger("transfer",transferCurrent);
+	}
+	
+	public void setIn(){
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
+	}
+	
+	public void setOut(){
+		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2);
 	}
 }

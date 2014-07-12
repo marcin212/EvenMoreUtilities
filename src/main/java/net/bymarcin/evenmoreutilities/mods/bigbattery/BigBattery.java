@@ -33,6 +33,8 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	private Set<EntityPlayer> updatePlayers;
 	private TileEntityControler controler;
 	private short lastUpdate = 0; 
+	private long lastTickBalance = 0;
+	private long tickBalance = 0;
 	
 	
 	
@@ -206,12 +208,15 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		return 32;
 	}
 
+	public void modifyLastTickBalance(int energy) {
+		 tickBalance += energy;
+	}
 
 	@Override
 	protected boolean updateServer() {
 		if(electrolyte==0) return false;
 		for(TileEntityPowerTap powerTap: powerTaps){
-			powerTap.onTransferEnergy();
+			modifyLastTickBalance(-powerTap.onTransferEnergy());
 		}
 		
 		if(lastUpdate%4==0){
@@ -222,8 +227,13 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 			lastUpdate =0;
 		}
 		lastUpdate++;
-		
+		lastTickBalance = tickBalance;
+		tickBalance = 0;
 		return true;
+	}
+	
+	public long getLastTickBalance() {
+		return lastTickBalance;
 	}
 
 	@Override
