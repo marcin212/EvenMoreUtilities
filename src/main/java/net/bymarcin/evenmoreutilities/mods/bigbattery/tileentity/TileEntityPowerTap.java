@@ -149,7 +149,7 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	@Override
 	public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
 		if(getMultiblockController()!=null && isOutput() && getMultiblockController().isAssembled()){
-			return ((BigBattery)getMultiblockController()).getStorage().receiveEnergy(maxReceive, simulate);
+			return ((BigBattery)getMultiblockController()).getStorage().receiveEnergy(Math.min(maxReceive,transferCurrent), simulate);
 		}
 		return 0;
 	}
@@ -157,7 +157,7 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	@Override
 	public int extractEnergy(ForgeDirection from, int maxExtract, boolean simulate) {
 		if(getMultiblockController()!=null && !isOutput() && getMultiblockController().isAssembled()){
-			return ((BigBattery)getMultiblockController()).getStorage().extractEnergy(maxExtract, simulate);
+			return ((BigBattery)getMultiblockController()).getStorage().extractEnergy(Math.min(maxExtract,transferCurrent), simulate);
 		}
 		return 0;
 	}

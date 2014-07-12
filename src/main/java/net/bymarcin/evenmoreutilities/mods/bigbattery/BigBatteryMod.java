@@ -1,6 +1,7 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery;
 
 import net.bymarcin.evenmoreutilities.IMod;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryComputerPort;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryElectrode;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryGlass;
@@ -11,6 +12,7 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.EnergyUpdatePacket;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.GuiControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.GuiPowerTap;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.PowerTapUpdatePacket;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityComputerPort;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityElectrode;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityGlass;
@@ -35,6 +37,7 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 	BlockBigBatteryGlass blockBigBatteryGlass;
 	BlockBigBatteryPowerTap blockBigBatteryPowerTap;
 	BlockBigBatteryWall blockBigBatteryWall;
+	BlockBigBatteryComputerPort blockBigBatteryComputerPort;
 	
 	@Override
 	public void init() {
@@ -57,6 +60,10 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 		blockBigBatteryControler = new BlockBigBatteryControler(1127);
 		GameRegistry.registerBlock(blockBigBatteryControler, "MultiBlockBigBatteryControler");
 		GameRegistry.registerTileEntity(TileEntityControler.class, "BigBatteryTileEntityControler");
+		
+		blockBigBatteryComputerPort = new BlockBigBatteryComputerPort(1128);
+		GameRegistry.registerBlock(blockBigBatteryComputerPort, "MultiBlockBigBatteryComputerPort");
+		GameRegistry.registerTileEntity(TileEntityComputerPort.class, "BigBatteryTileEntityComputerPort");
 		
 		EMURegistry.registerPacket(1, EnergyUpdatePacket.class);
 		EMURegistry.registerPacket(2, PowerTapUpdatePacket.class);

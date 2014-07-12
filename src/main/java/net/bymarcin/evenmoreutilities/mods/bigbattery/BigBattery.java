@@ -52,6 +52,9 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		return new BigBatteryContainer(controler, player);
 	}
 	
+	public Set<TileEntityPowerTap> getPowerTaps() {
+		return powerTaps;
+	}
 	
 	public void beginUpdatingPlayer(EntityPlayer playerToUpdate) {
 		updatePlayers.add(playerToUpdate);
