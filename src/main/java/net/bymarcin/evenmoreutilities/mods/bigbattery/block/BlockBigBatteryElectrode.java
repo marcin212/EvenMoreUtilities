@@ -1,6 +1,7 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.block;
 
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBatteryMod;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityElectrode;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.material.Material;
@@ -11,6 +12,7 @@ import net.minecraft.world.World;
 import erogenousbeef.core.multiblock.BlockMultiblockBase;
 
 public class BlockBigBatteryElectrode extends BlockMultiblockBase{
+	public static BlockBigBatteryElectrode instance = new BlockBigBatteryElectrode(BigBatteryMod.blockBigBatteryElectrodeID);
 	public static Icon icon ;
 	public BlockBigBatteryElectrode(int id) {
 		super(id, Material.iron);

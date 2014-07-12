@@ -1,6 +1,7 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.block;
 
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBatteryMod;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityGlass;
 import net.bymarcin.evenmoreutilities.utils.Sides;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
@@ -14,6 +15,7 @@ import net.minecraftforge.common.ForgeDirection;
 import erogenousbeef.core.multiblock.BlockMultiblockBase;
 
 public class BlockBigBatteryGlass extends BlockMultiblockBase {
+	public static BlockBigBatteryGlass instance = new BlockBigBatteryGlass(BigBatteryMod.blockBigBatteryGlassID);
 	public static Icon icons[] = new Icon[16];
 	public static Icon transparentIcon;
 	public BlockBigBatteryGlass(int id) {

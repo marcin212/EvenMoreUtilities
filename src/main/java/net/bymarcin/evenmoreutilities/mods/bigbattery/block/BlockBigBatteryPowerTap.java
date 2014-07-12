@@ -1,6 +1,7 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.block;
 
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBatteryMod;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPowerTap;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.material.Material;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.ForgeDirection;
 import erogenousbeef.core.multiblock.BlockMultiblockBase;
 
 public class BlockBigBatteryPowerTap extends BlockMultiblockBase{
+	public static BlockBigBatteryPowerTap instance = new BlockBigBatteryPowerTap(BigBatteryMod.blockBigBatteryPowerTapID);
 	public static Icon icon;
 	public static Icon iconTopIn;
 	public static Icon iconTopOut;

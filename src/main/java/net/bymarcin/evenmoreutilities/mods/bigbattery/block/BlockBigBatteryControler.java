@@ -1,6 +1,7 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.block;
 
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBatteryMod;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.material.Material;
@@ -12,6 +13,7 @@ import net.minecraft.world.World;
 import erogenousbeef.core.multiblock.BlockMultiblockBase;
 
 public class BlockBigBatteryControler extends BlockMultiblockBase{
+	public static BlockBigBatteryControler instance = new BlockBigBatteryControler(BigBatteryMod.blockBigBatteryControlerID);
 	public static Icon iconSideOn;
 	public static Icon iconSideOff;
 	public static Icon icon;

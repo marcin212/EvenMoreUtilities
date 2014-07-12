@@ -1,6 +1,7 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.block;
 
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBatteryMod;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityComputerPort;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.material.Material;
@@ -11,6 +12,7 @@ import net.minecraft.world.World;
 import erogenousbeef.core.multiblock.BlockMultiblockBase;
 
 public class BlockBigBatteryComputerPort extends BlockMultiblockBase{
+	public static BlockBigBatteryComputerPort instance = new BlockBigBatteryComputerPort(BigBatteryMod.blockBigBatteryComputerPortID);
 	public static Icon icon;
 	public BlockBigBatteryComputerPort(int id) {
 		super(id, Material.iron);

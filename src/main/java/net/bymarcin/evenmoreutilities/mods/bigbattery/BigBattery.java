@@ -39,6 +39,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	
 	
 	
+	
 	private long electrolyte = 0;
 	private int maxOutput = 0;
 	private AdvancedStorage storage = new AdvancedStorage(Long.MAX_VALUE,10000,10000);
