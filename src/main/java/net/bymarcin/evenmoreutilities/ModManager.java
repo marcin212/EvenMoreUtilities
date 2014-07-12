@@ -3,11 +3,13 @@ package net.bymarcin.evenmoreutilities;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.logging.Logger;
 
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 
@@ -57,7 +59,7 @@ public class ModManager {
 			}
 			if (mod.isLoaded) {
 				mod.mod.init();
-				System.out.println("Loaded: " + mod.classPath);
+				Logger.getLogger(StaticValues.modId).info("Loaded: " + mod.classPath);
 			}
 		}
 	}

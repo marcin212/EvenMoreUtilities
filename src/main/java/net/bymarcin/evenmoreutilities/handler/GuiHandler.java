@@ -17,8 +17,6 @@ public class GuiHandler extends EMURegistry implements IGuiHandler {
     	 Object temp = null;
     	 for(IGUI g : gui){
     		temp = g.getServerGuiElement(id, tileEntity, player, world, x, y, z);
-    		System.out.println("test");
-    		System.out.println(temp);
     		if(temp != null) return temp;
     	 }	
     	return null;
@@ -31,8 +29,6 @@ public class GuiHandler extends EMURegistry implements IGuiHandler {
             Object temp = null;
 	       	for(IGUI g :  gui){
 	    		 temp = g.getClientGuiElement(id, tileEntity, player, world, x, y, z);
-	     		System.out.println("test1");
-	    		System.out.println(temp);
 	    		 if(temp != null) return temp;
 	       	}
             return null;

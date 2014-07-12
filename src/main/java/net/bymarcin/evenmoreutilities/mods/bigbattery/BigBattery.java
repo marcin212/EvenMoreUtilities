@@ -18,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraftforge.fluids.FluidRegistry;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -99,9 +100,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	protected void onMachineAssembled() {
 		for(TileEntityControler c: controlers)
 			controler = c;
-		FMLLog.info("Machine %d ASSEMBLED", hashCode());
-		FMLLog.info("Zawieram %d -powerTaps and %d -controlers and %d-electrolyte maxoutput: %d", powerTaps.size(),controlers.size(), electrolyte, maxOutput);
-	}
+		}
 	
 	public boolean isSourceFluid(int x, int y, int z){
 		Block block = Block.blocksList[worldObj.getBlockId(x, y, z)];
@@ -126,8 +125,13 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	}
 	
 	public int checkElectrolyte(int x, int y, int z){
-		if(isSourceFluid(x, y, z))
-			return 1;
+		Block block = Block.blocksList[worldObj.getBlockId(x, y, z)];
+		
+		if(isSourceFluid(x, y, z)){
+			if(BigBatteryMod.getElectrolyteList().containsKey(FluidRegistry.lookupFluidForBlock(block))){
+				return BigBatteryMod.getElectrolyteList().get(FluidRegistry.lookupFluidForBlock(block));
+			}	
+		}			
 		return 0;
 	}
 	
@@ -160,7 +164,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 		for(int x=getMinimumCoord().x; x < getMaximumCoord().x; x++){
 			for(int y=getMinimumCoord().y; y < getMaximumCoord().y; y++){
 				for(int z=getMinimumCoord().z; z < getMaximumCoord().z; z++){
-					electrolyte += checkElectrolyte(x,y,z)*50000000;
+					electrolyte += checkElectrolyte(x,y,z);
 				}
 			}
 		}

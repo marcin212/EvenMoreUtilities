@@ -34,7 +34,6 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 
 	protected void sendIndividualUpdate(EntityPlayer player) {
 		if(this.worldObj.isRemote) { return; }
-		
 		PacketDispatcher.sendPacketToPlayer(getUpdatePacket(), (Player)player);
 	}
 	
@@ -66,8 +65,7 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 		if ((entityBelow instanceof TileEntityElectrode)) {
 			return;
 		}
-		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap must be placed on electrode", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));
-		
+		throw new MultiblockValidationException(String.format("%d, %d, %d - Power tap must be placed on electrode", new Object[] { Integer.valueOf(this.xCoord), Integer.valueOf(this.yCoord), Integer.valueOf(this.zCoord) }));	
 	}
 
 	@Override
@@ -90,14 +88,10 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 
 	@Override
 	public void onMachineActivated() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onMachineDeactivated() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public int onTransferEnergy(){
@@ -112,8 +106,7 @@ public class TileEntityPowerTap extends RectangularMultiblockTileEntityBase impl
 	}
 
 	public void setTransfer(int transfer){
-		transferCurrent = Math.max(0,Math.min(transfer, transferMax));
-		
+		transferCurrent = Math.max(0,Math.min(transfer, transferMax));	
 	}
 	
 	public void onPacket(int transfer,int typ){

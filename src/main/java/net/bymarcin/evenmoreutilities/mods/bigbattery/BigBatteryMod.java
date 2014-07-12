@@ -1,5 +1,7 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery;
 
+import java.util.HashMap;
+
 import net.bymarcin.evenmoreutilities.IMod;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryComputerPort;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryControler;
@@ -24,6 +26,8 @@ import net.bymarcin.evenmoreutilities.registry.IProxy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -38,6 +42,7 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 	BlockBigBatteryPowerTap blockBigBatteryPowerTap;
 	BlockBigBatteryWall blockBigBatteryWall;
 	BlockBigBatteryComputerPort blockBigBatteryComputerPort;
+	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
 	
 	@Override
 	public void init() {
@@ -65,6 +70,10 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 		GameRegistry.registerBlock(blockBigBatteryComputerPort, "MultiBlockBigBatteryComputerPort");
 		GameRegistry.registerTileEntity(TileEntityComputerPort.class, "BigBatteryTileEntityComputerPort");
 		
+
+		
+		
+		
 		EMURegistry.registerPacket(1, EnergyUpdatePacket.class);
 		EMURegistry.registerPacket(2, PowerTapUpdatePacket.class);
 		
@@ -73,7 +82,16 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 	
 	@Override
 	public void postInit() {
-		
+		registerElectrolyte("water",50000000);
+		registerElectrolyte("redstone", 75000000);
+		registerElectrolyte("ender", 100000000);
+	}
+	
+	private void registerElectrolyte(String name, int valuePerBlock){
+		Fluid temp = FluidRegistry.getFluid(name);
+		if(temp!=null){
+			electrolyteList.put(temp,valuePerBlock);
+		}
 	}
 
 	@Override
@@ -113,5 +131,9 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 	@Override
 	public void serverSide() {
 		TickRegistry.registerTickHandler(new MultiblockServerTickHandler(), Side.SERVER);
+	}
+	
+	public static HashMap<Fluid, Integer> getElectrolyteList() {
+		return electrolyteList;
 	}
 }
