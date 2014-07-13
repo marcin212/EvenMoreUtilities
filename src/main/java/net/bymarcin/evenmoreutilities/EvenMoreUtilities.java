@@ -22,7 +22,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import erogenousbeef.core.multiblock.MultiblockEventHandler;
 
-@Mod(modid=StaticValues.modId, name=StaticValues.modName, version="0.0.1")
+@Mod(modid=StaticValues.modId, name=StaticValues.modName, version="0.0.3")
 @NetworkMod(clientSideRequired=true, serverSideRequired=true)
 public class EvenMoreUtilities {
 	ModManager modManager;

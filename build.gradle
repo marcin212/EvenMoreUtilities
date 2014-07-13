@@ -17,7 +17,7 @@ dependencies {
 	compile files('libs/Thaumcraft4.1.0g.zip')
 	compile files('binnie-mods-1.8.0.jar')
 }
-version = "1.6.4-0.0.2"
+version = "1.6.4-0.0.3"
 group= "by.marcin.evenmoreutilities" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "EvenMoreUtilities"
 
