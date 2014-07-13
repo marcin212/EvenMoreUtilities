@@ -13,3 +13,10 @@ tile.emu.MultimeterSensor.name=RF Meter
 
 item.emu.kindersurprise.name=Kinder Surprise
 tile.emu.blockCharcoalCoal.name=Block of Charcoal
+
+tile.emu.bigBatteryComputerPort.name=Computer Port BigBattery
+tile.emu.bigBatteryControler.name=Controler BigBattery
+tile.emu.bigBatteryElectrode.name=Electrode BigBattery
+tile.emu.bigBatteryGlass.name=Glass BigBattery
+tile.emu.bigBatteryPowerTap.name=Power Tap BigBattery
+tile.emu.bigBatteryWall.name=Wall BigBattery
