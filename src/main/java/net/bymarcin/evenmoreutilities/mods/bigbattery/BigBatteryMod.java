@@ -1,7 +1,9 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
 import net.bymarcin.evenmoreutilities.IMod;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryComputerPort;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryControler;
@@ -23,11 +25,16 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityWall;
 import net.bymarcin.evenmoreutilities.registry.EMURegistry;
 import net.bymarcin.evenmoreutilities.registry.IGUI;
 import net.bymarcin.evenmoreutilities.registry.IProxy;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -36,43 +43,54 @@ import erogenousbeef.core.multiblock.MultiblockServerTickHandler;
 
 public class BigBatteryMod implements IMod, IGUI, IProxy{
 	
-	BlockBigBatteryControler blockBigBatteryControler;
-	BlockBigBatteryElectrode blockBigBatteryElectrode;
-	BlockBigBatteryGlass blockBigBatteryGlass;
-	BlockBigBatteryPowerTap blockBigBatteryPowerTap;
-	BlockBigBatteryWall blockBigBatteryWall;
-	BlockBigBatteryComputerPort blockBigBatteryComputerPort;
+	public static int  blockBigBatteryElectrodeID;
+	public static int  blockBigBatteryGlassID;
+	public static int  blockBigBatteryPowerTapID;
+	public static int  blockBigBatteryWallID;
+	public static int  blockBigBatteryComputerPortID;
+	public static int  blockBigBatteryControlerID;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
+	
+	
+	/*Crafting items*/
+	
+	ItemStack obsidian;
+	ItemStack gold;
+	ItemStack sawDust;
+	ItemStack redstone;
+	ItemStack rfmeter;
+	ItemStack enderFrame;
+	ItemStack specialGlass;
+	ItemStack electrum;
+	ItemStack electrumFrame;
+	ItemStack graphite;
+	
 	
 	@Override
 	public void init() {
-		blockBigBatteryWall = new BlockBigBatteryWall(1123);
-		GameRegistry.registerBlock(blockBigBatteryWall, "MultiBlockBigBatteryWall");
+		blockBigBatteryWallID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockBigBatteryWallID", 1123).getInt();
+		GameRegistry.registerBlock(BlockBigBatteryWall.instance, "MultiBlockBigBatteryWall");
 		GameRegistry.registerTileEntity(TileEntityWall.class, "BigBatteryTileEntityWall");
 		
-		blockBigBatteryPowerTap = new BlockBigBatteryPowerTap(1124);
-		GameRegistry.registerBlock(blockBigBatteryPowerTap, "MultiBlockBigBatteryPowerTap");
+		blockBigBatteryPowerTapID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockBigBatteryPowerTapID", 1124).getInt();
+		GameRegistry.registerBlock(BlockBigBatteryPowerTap.instance, "MultiBlockBigBatteryPowerTap");
 		GameRegistry.registerTileEntity(TileEntityPowerTap.class, "BigBatteryTileEntityPowerTap");
 		
-		blockBigBatteryGlass = new BlockBigBatteryGlass(1125);
-		GameRegistry.registerBlock(blockBigBatteryGlass, "MultiBlockBigBatteryGlass");
+		blockBigBatteryGlassID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockBigBatteryGlassID", 1125).getInt();
+		GameRegistry.registerBlock(BlockBigBatteryGlass.instance, "MultiBlockBigBatteryGlass");
 		GameRegistry.registerTileEntity(TileEntityGlass.class, "BigBatteryTileEntityGlass");
 		
-		blockBigBatteryElectrode = new BlockBigBatteryElectrode(1126);
-		GameRegistry.registerBlock(blockBigBatteryElectrode, "MultiBlockBigBatteryElectrode");
+		blockBigBatteryElectrodeID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockBigBatteryElectrodeID", 1126).getInt();
+		GameRegistry.registerBlock(BlockBigBatteryElectrode.instance, "MultiBlockBigBatteryElectrode");
 		GameRegistry.registerTileEntity(TileEntityElectrode.class, "BigBatteryTileEntityElectrode");
 		
-		blockBigBatteryControler = new BlockBigBatteryControler(1127);
-		GameRegistry.registerBlock(blockBigBatteryControler, "MultiBlockBigBatteryControler");
+		blockBigBatteryControlerID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockBigBatteryControlerID", 1127).getInt();
+		GameRegistry.registerBlock(BlockBigBatteryControler.instance, "MultiBlockBigBatteryControler");
 		GameRegistry.registerTileEntity(TileEntityControler.class, "BigBatteryTileEntityControler");
 		
-		blockBigBatteryComputerPort = new BlockBigBatteryComputerPort(1128);
-		GameRegistry.registerBlock(blockBigBatteryComputerPort, "MultiBlockBigBatteryComputerPort");
+		blockBigBatteryComputerPortID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockBigBatteryComputerPortID", 1128).getInt();
+		GameRegistry.registerBlock(BlockBigBatteryComputerPort.instance, "MultiBlockBigBatteryComputerPort");
 		GameRegistry.registerTileEntity(TileEntityComputerPort.class, "BigBatteryTileEntityComputerPort");
-		
-
-		
-		
 		
 		EMURegistry.registerPacket(1, EnergyUpdatePacket.class);
 		EMURegistry.registerPacket(2, PowerTapUpdatePacket.class);
@@ -85,6 +103,45 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
 		registerElectrolyte("water",50000000);
 		registerElectrolyte("redstone", 75000000);
 		registerElectrolyte("ender", 100000000);
+		
+		redstone = new ItemStack(Item.redstone,1);
+		obsidian = new ItemStack(Block.obsidian,1);
+		gold = new ItemStack(Block.blockGold,1);
+		
+		electrum = GameRegistry.findItemStack("ThermalExpansion","ingotElectrum",1);
+		sawDust = GameRegistry.findItemStack("ThermalExpansion","sawdustCompressed",1);
+		specialGlass = GameRegistry.findItemStack("ThermalExpansion","lampFrame",1);
+		
+		rfmeter =GameRegistry.findItemStack("ThermalExpansion","multimeter",1);
+		enderFrame =GameRegistry.findItemStack("ThermalExpansion","tesseractFrameEmpty",1);
+		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","cellReinforcedFrameEmpty",1);
+		
+		
+		ArrayList<ItemStack> temp = OreDictionary.getOres("blockGraphite");
+		if(temp!=null && temp.size()>0)
+			graphite =  temp.get(0);
+
+		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
+				enderFrame != null && electrumFrame != null && graphite != null){ 
+		
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockBigBatteryWall.instance,8), "ODE","OFE","ODE",
+					'O',obsidian, 'D', sawDust, 'E', electrum, 'F', enderFrame));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(BlockBigBatteryControler.instance, "ODE","MRE","ODE",
+					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', electrumFrame));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(BlockBigBatteryElectrode.instance, "WGW","WGW","WWW",
+					'W', graphite, 'G', gold));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockBigBatteryGlass.instance,4), "GGG","GFG","GGG",
+					'G',specialGlass,'F', enderFrame));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(BlockBigBatteryPowerTap.instance, "ORO","DFD","EEE",
+					'O', obsidian, 'D', sawDust, 'R', redstone, 'E', electrum, 'F', electrumFrame));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(BlockBigBatteryComputerPort.instance,"ODE","RMF","ODE",
+					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', redstone, 'F', enderFrame));
+		}
 	}
 	
 	private void registerElectrolyte(String name, int valuePerBlock){
