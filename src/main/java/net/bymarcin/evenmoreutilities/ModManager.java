@@ -28,7 +28,7 @@ public class ModManager {
 		addMod("additionalconverters.ModAdditionalConverters",	"$('OpenComponents')" , 	"AdditionalConverters");
 		addMod("yelloriumenhancement.YE",						"$('ExtraBees') && $('BigReactors')","YE");
 		addMod("vanillautils.VanillaUtils",						"",							"VanillaUtils");
-		addMod("bigbattery.BigBatteryMod", "" ,"BigBattery");
+		addMod("bigbattery.BigBatteryMod", "$('BigReactors') && $('ThermalExpansion')" ,"BigBattery");
 		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
 	}
 	
