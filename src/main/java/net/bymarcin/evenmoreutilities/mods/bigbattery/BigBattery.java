@@ -99,6 +99,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 	
 	@Override
 	protected void onMachineAssembled() {
+		FMLLog.info("Machine %d ASSEMBLED", hashCode());
 		for(TileEntityControler c: controlers)
 			controler = c;
 		}

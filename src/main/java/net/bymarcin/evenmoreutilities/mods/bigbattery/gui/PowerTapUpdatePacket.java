@@ -1,12 +1,13 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.gui;
 
+import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPowerTap;
+import net.bymarcin.evenmoreutilities.utils.AbstractPacket;
+import net.minecraft.entity.player.EntityPlayer;
+
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.relauncher.Side;
-import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPowerTap;
-import net.bymarcin.evenmoreutilities.utils.AbstractPacket;
-import net.minecraft.entity.player.EntityPlayer;
 
 public class PowerTapUpdatePacket extends AbstractPacket{
 	public static final int MINUS = 1;

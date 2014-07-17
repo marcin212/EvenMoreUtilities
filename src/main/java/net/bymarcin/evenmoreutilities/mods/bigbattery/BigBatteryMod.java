@@ -24,7 +24,6 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPower
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityWall;
 import net.bymarcin.evenmoreutilities.registry.EMURegistry;
 import net.bymarcin.evenmoreutilities.registry.IGUI;
-import net.bymarcin.evenmoreutilities.registry.IProxy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -36,12 +35,8 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
-import erogenousbeef.core.multiblock.MultiblockClientTickHandler;
-import erogenousbeef.core.multiblock.MultiblockServerTickHandler;
 
-public class BigBatteryMod implements IMod, IGUI, IProxy{
+public class BigBatteryMod implements IMod, IGUI{
 	
 	public static int  blockBigBatteryElectrodeID;
 	public static int  blockBigBatteryGlassID;
@@ -178,16 +173,6 @@ public class BigBatteryMod implements IMod, IGUI, IProxy{
         }
         
 		return null;
-	}
-
-	@Override
-	public void clientSide() {
-		TickRegistry.registerTickHandler(new MultiblockClientTickHandler(), Side.CLIENT);
-	}
-
-	@Override
-	public void serverSide() {
-		TickRegistry.registerTickHandler(new MultiblockServerTickHandler(), Side.SERVER);
 	}
 	
 	public static HashMap<Fluid, Integer> getElectrolyteList() {

@@ -86,7 +86,7 @@ public class BlockBigBatteryWall extends BlockMultiblockBase {
 							return true;
 						}
 					}else {
-						player.sendChatToPlayer(ChatMessageComponent.createFromText("Block is not connected to a reactor. This could be due to lag, or a bug. If the problem persists, try breaking and re-placing the block."));
+						player.sendChatToPlayer(ChatMessageComponent.createFromText("Block is not connected to a battery. This could be due to lag, or a bug. If the problem persists, try breaking and re-placing the block."));
 						return true;
 					}
 				}

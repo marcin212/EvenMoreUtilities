@@ -1,11 +1,11 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity;
 
-import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBattery;
-import cpw.mods.fml.common.Optional;
 import li.cil.oc.api.network.Arguments;
 import li.cil.oc.api.network.Callback;
 import li.cil.oc.api.network.Context;
 import li.cil.oc.api.network.SimpleComponent;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBattery;
+import cpw.mods.fml.common.Optional;
 import erogenousbeef.core.multiblock.MultiblockControllerBase;
 import erogenousbeef.core.multiblock.MultiblockValidationException;
 import erogenousbeef.core.multiblock.rectangular.RectangularMultiblockTileEntityBase;

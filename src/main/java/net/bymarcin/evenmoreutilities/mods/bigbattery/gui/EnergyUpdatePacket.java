@@ -1,14 +1,15 @@
 package net.bymarcin.evenmoreutilities.mods.bigbattery.gui;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
-
-import cpw.mods.fml.relauncher.Side;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.BigBattery;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.utils.AbstractPacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+
+import cpw.mods.fml.relauncher.Side;
 
 public class EnergyUpdatePacket extends AbstractPacket{
 	int x;
