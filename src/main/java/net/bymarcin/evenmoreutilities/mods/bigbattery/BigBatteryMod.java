@@ -2,15 +2,19 @@ package net.bymarcin.evenmoreutilities.mods.bigbattery;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
 import net.bymarcin.evenmoreutilities.IMod;
+import net.bymarcin.evenmoreutilities.handler.BucketHandler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryComputerPort;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryControler;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryElectrode;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryGlass;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryPowerTap;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryWall;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.fluid.AcidFluid;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.fluid.FluidBucket;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.BigBatteryContainer;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.EnergyUpdatePacket;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.GuiControler;
@@ -24,13 +28,16 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityPower
 import net.bymarcin.evenmoreutilities.mods.bigbattery.tileentity.TileEntityWall;
 import net.bymarcin.evenmoreutilities.registry.EMURegistry;
 import net.bymarcin.evenmoreutilities.registry.IGUI;
+import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -44,9 +51,11 @@ public class BigBatteryMod implements IMod, IGUI{
 	public static int  blockBigBatteryWallID;
 	public static int  blockBigBatteryComputerPortID;
 	public static int  blockBigBatteryControlerID;
+	public static int  itemAcidBucketID;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
 	
-	
+	public static Fluid acid = new Fluid("sulfurousacid");
+	public static int  blockAcidFluidID;
 	/*Crafting items*/
 	
 	ItemStack obsidian;
@@ -63,6 +72,23 @@ public class BigBatteryMod implements IMod, IGUI{
 	
 	@Override
 	public void init() {
+		blockAcidFluidID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockAcidFluidID", 1129).getInt();
+		acid.setBlockID(blockAcidFluidID);
+		FluidRegistry.registerFluid(acid);
+
+		GameRegistry.registerBlock(AcidFluid.instance,StaticValues.modId+":sulfurousacid");
+		
+		itemAcidBucketID = EvenMoreUtilities.instance.config.getBlock("itemsid","AcidBucketID", 1010).getInt();
+		GameRegistry.registerItem(FluidBucket.instance, StaticValues.modId+":AcidBucket");
+		EMURegistry.registerBucket(blockAcidFluidID, FluidBucket.instance);
+		
+		
+		FluidContainerRegistry.registerFluidContainer(
+				FluidRegistry.getFluidStack(acid.getName(), FluidContainerRegistry.BUCKET_VOLUME),
+				new ItemStack(FluidBucket.instance),
+				new ItemStack(Item.bucketEmpty));
+		MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+		
 		blockBigBatteryWallID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockBigBatteryWallID", 1123).getInt();
 		GameRegistry.registerBlock(BlockBigBatteryWall.instance, "MultiBlockBigBatteryWall");
 		GameRegistry.registerTileEntity(TileEntityWall.class, "BigBatteryTileEntityWall");
@@ -91,10 +117,14 @@ public class BigBatteryMod implements IMod, IGUI{
 		EMURegistry.registerPacket(2, PowerTapUpdatePacket.class);
 		
 		EMURegistry.registerGUI(this);
+		
 	}
 	
 	@Override
 	public void postInit() {
+
+		
+		
 		registerElectrolyte("water",50000000);
 		registerElectrolyte("redstone", 75000000);
 		registerElectrolyte("ender", 100000000);
@@ -143,6 +173,8 @@ public class BigBatteryMod implements IMod, IGUI{
 		Fluid temp = FluidRegistry.getFluid(name);
 		if(temp!=null){
 			electrolyteList.put(temp,valuePerBlock);
+		}else{
+			Logger.getLogger(StaticValues.modId).warning("Try add fluid" + name + "as electrolyte, but fluid not found!");
 		}
 	}
 

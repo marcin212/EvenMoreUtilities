@@ -12,6 +12,7 @@ import net.minecraft.block.BlockFlowing;
 import net.minecraft.block.BlockFluid;
 import net.minecraft.block.BlockStationary;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.nbt.NBTTagCompound;
@@ -187,7 +188,7 @@ public class BigBattery extends RectangularMultiblockControllerBase{
 			throws MultiblockValidationException {
 		if(world.isAirBlock(x, y, z)) { return; }
 		Material material = world.getBlockMaterial(x, y, z);
-			if(material == net.minecraft.block.material.MaterialLiquid.water) {
+			if(material instanceof MaterialLiquid) {
 				return;
 		}
 		int blockId = world.getBlockId(x, y, z);
