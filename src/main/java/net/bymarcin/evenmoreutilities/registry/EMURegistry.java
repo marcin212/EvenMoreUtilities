@@ -4,10 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
+import net.bymarcin.evenmoreutilities.handler.BucketHandler;
 import net.bymarcin.evenmoreutilities.handler.GuiHandler;
 import net.bymarcin.evenmoreutilities.handler.PacketHandler;
 import net.bymarcin.evenmoreutilities.utils.AbstractPacket;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
+import net.minecraft.item.Item;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
@@ -37,6 +39,10 @@ public class EMURegistry {
 	public static void init(){
         NetworkRegistry.instance().registerGuiHandler(EvenMoreUtilities.instance, new GuiHandler());
         NetworkRegistry.instance().registerChannel(new PacketHandler(), StaticValues.modId);	
+	}
+	
+	public static void registerBucket(int fluidID, Item fluidBucket){
+		BucketHandler.INSTANCE.buckets.put(fluidID, fluidBucket);
 	}
 	
 	public static void postInit(){
