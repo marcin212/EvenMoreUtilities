@@ -13,6 +13,7 @@ import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryElect
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryGlass;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryPowerTap;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockBigBatteryWall;
+import net.bymarcin.evenmoreutilities.mods.bigbattery.block.BlockSulfur;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.fluid.AcidFluid;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.fluid.FluidBucket;
 import net.bymarcin.evenmoreutilities.mods.bigbattery.gui.BigBatteryContainer;
@@ -52,6 +53,8 @@ public class BigBatteryMod implements IMod, IGUI{
 	public static int  blockBigBatteryComputerPortID;
 	public static int  blockBigBatteryControlerID;
 	public static int  itemAcidBucketID;
+	
+	public static int sulfurblockId;
 	static HashMap<Fluid,Integer> electrolyteList = new HashMap<Fluid,Integer>();
 	
 	public static Fluid acid = new Fluid("sulfurousacid");
@@ -68,10 +71,15 @@ public class BigBatteryMod implements IMod, IGUI{
 	ItemStack electrum;
 	ItemStack electrumFrame;
 	ItemStack graphite;
-	
+	ItemStack sulfur;
+	ItemStack gunpowder;
 	
 	@Override
 	public void init() {
+		
+		sulfurblockId = EvenMoreUtilities.instance.config.getBlock("BlocksId","sulfurblockId", 1029).getInt();
+		GameRegistry.registerBlock(BlockSulfur.instance,StaticValues.modId+":sulfurblock");
+		
 		blockAcidFluidID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockAcidFluidID", 1129).getInt();
 		acid.setBlockID(blockAcidFluidID);
 		FluidRegistry.registerFluid(acid);
@@ -128,10 +136,12 @@ public class BigBatteryMod implements IMod, IGUI{
 		registerElectrolyte("water",50000000);
 		registerElectrolyte("redstone", 75000000);
 		registerElectrolyte("ender", 100000000);
+		registerElectrolyte("sulfurousacid", 150000000);
 		
 		redstone = new ItemStack(Item.redstone,1);
 		obsidian = new ItemStack(Block.obsidian,1);
 		gold = new ItemStack(Block.blockGold,1);
+		gunpowder = new ItemStack(Item.gunpowder,1);
 		
 		electrum = GameRegistry.findItemStack("ThermalExpansion","ingotElectrum",1);
 		sawDust = GameRegistry.findItemStack("ThermalExpansion","sawdustCompressed",1);
@@ -141,13 +151,14 @@ public class BigBatteryMod implements IMod, IGUI{
 		enderFrame =GameRegistry.findItemStack("ThermalExpansion","tesseractFrameEmpty",1);
 		electrumFrame =GameRegistry.findItemStack("ThermalExpansion","cellReinforcedFrameEmpty",1);
 		
+		sulfur = GameRegistry.findItemStack("ThermalExpansion","dustSulfur",1);
 		
 		ArrayList<ItemStack> temp = OreDictionary.getOres("blockGraphite");
 		if(temp!=null && temp.size()>0)
 			graphite =  temp.get(0);
 
 		if(electrum != null && sawDust != null && specialGlass != null && rfmeter != null &&
-				enderFrame != null && electrumFrame != null && graphite != null){ 
+				enderFrame != null && electrumFrame != null && graphite != null && sulfur!=null && gunpowder!=null){ 
 		
 			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockBigBatteryWall.instance,8), "ODE","OFE","ODE",
 					'O',obsidian, 'D', sawDust, 'E', electrum, 'F', enderFrame));
@@ -166,6 +177,9 @@ public class BigBatteryMod implements IMod, IGUI{
 			
 			GameRegistry.addRecipe(new ShapedOreRecipe(BlockBigBatteryComputerPort.instance,"ODE","RMF","ODE",
 					'O', obsidian, 'D', sawDust, 'E', electrum, 'M', rfmeter, 'R', redstone, 'F', enderFrame));
+			
+			GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockSulfur.instance,1), "SGS","SSS","SSS",
+					'S',sulfur, 'G', gunpowder));
 		}
 	}
 	

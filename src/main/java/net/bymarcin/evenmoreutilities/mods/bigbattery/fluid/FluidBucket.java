@@ -13,7 +13,7 @@ public class FluidBucket extends ItemBucket{
 	public FluidBucket(int itemId, int fluidId) {
 		super(itemId, fluidId);
 		setCreativeTab(EvenMoreUtilities.instance.tabCustom);
-		
+		setUnlocalizedName("emu.acidBucket");
 	}
 	
 	@Override
