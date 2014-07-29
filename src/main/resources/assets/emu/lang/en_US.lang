@@ -20,3 +20,7 @@ tile.emu.bigBatteryElectrode.name=Electrode BigBattery
 tile.emu.bigBatteryGlass.name=Glass BigBattery
 tile.emu.bigBatteryPowerTap.name=Power Tap BigBattery
 tile.emu.bigBatteryWall.name=Wall BigBattery
+
+tile.emu.sulfurBlock.name=Block of Sulfur
+tile.sulfurousacid.name=Sulfurous Acid 
+item.emu.acidBucket.name=Sulfurous Acid Bucket
