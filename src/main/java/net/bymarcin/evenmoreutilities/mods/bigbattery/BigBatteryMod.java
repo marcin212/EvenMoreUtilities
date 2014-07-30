@@ -131,9 +131,6 @@ public class BigBatteryMod implements IMod, IGUI{
 	@Override
 	public void postInit() {
 
-		
-		
-		registerElectrolyte("water",50000000);
 		registerElectrolyte("redstone", 75000000);
 		registerElectrolyte("ender", 100000000);
 		registerElectrolyte("sulfurousacid", 150000000);
