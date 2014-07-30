@@ -8,13 +8,14 @@ import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 
 public class BlockSulfur extends Block{
-	
+	protected Icon blockIconTop;
 	public static BlockSulfur instance = new BlockSulfur(BigBatteryMod.sulfurblockId);
 	public BlockSulfur(int id) {
 		super(id, Material.rock);
@@ -54,9 +55,17 @@ public class BlockSulfur extends Block{
     	}
     }
     
+    
+    
     @Override
     public void registerIcons(IconRegister iconRegister) {
     	blockIcon = iconRegister.registerIcon(StaticValues.modId + ":sulfur_block");
+    	blockIconTop = iconRegister.registerIcon(StaticValues.modId + ":sulfur_block_top");
+    }
+    
+    @Override
+    public Icon getIcon(int side, int meta) {
+    	return side==1?blockIconTop:blockIcon;
     }
     
     @Override
