@@ -24,3 +24,4 @@ tile.emu.bigBatteryWall.name=Wall BigBattery
 tile.emu.sulfurBlock.name=Block of Sulfur
 tile.sulfurousacid.name=Sulfurous Acid 
 item.emu.acidBucket.name=Sulfurous Acid Bucket
+fluid.sulfurousacid=Sulfurous Acid 

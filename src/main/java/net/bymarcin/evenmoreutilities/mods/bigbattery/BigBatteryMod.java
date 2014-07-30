@@ -36,13 +36,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BigBatteryMod implements IMod, IGUI{
 	
@@ -82,9 +86,11 @@ public class BigBatteryMod implements IMod, IGUI{
 		
 		blockAcidFluidID = EvenMoreUtilities.instance.config.getBlock("BlocksId","blockAcidFluidID", 1129).getInt();
 		acid.setBlockID(blockAcidFluidID);
+		
 		FluidRegistry.registerFluid(acid);
 
 		GameRegistry.registerBlock(AcidFluid.instance,StaticValues.modId+":sulfurousacid");
+		
 		
 		itemAcidBucketID = EvenMoreUtilities.instance.config.getBlock("itemsid","AcidBucketID", 1010).getInt();
 		GameRegistry.registerItem(FluidBucket.instance, StaticValues.modId+":AcidBucket");
@@ -125,7 +131,7 @@ public class BigBatteryMod implements IMod, IGUI{
 		EMURegistry.registerPacket(2, PowerTapUpdatePacket.class);
 		
 		EMURegistry.registerGUI(this);
-		
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
 	@Override
@@ -221,4 +227,14 @@ public class BigBatteryMod implements IMod, IGUI{
 	public static HashMap<Fluid, Integer> getElectrolyteList() {
 		return electrolyteList;
 	}
+	
+	@ForgeSubscribe
+    @SideOnly(Side.CLIENT)
+    public void textureHook(TextureStitchEvent.Post event)
+    {
+        if (event.map.getTextureType() == 0)
+        {
+            acid.setIcons(AcidFluid.instance.getBlockTextureFromSide(1), AcidFluid.instance.getBlockTextureFromSide(2));
+        }
+    }
 }

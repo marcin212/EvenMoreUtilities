@@ -15,9 +15,9 @@ import net.minecraftforge.fluids.Fluid;
 public class AcidFluid extends BlockFluidClassic{
 	public static AcidFluid instance =  new AcidFluid(BigBatteryMod.blockAcidFluidID, BigBatteryMod.acid);
     @SideOnly(Side.CLIENT)
-    protected Icon stillIcon;
+    public Icon stillIcon;
     @SideOnly(Side.CLIENT)
-    protected Icon flowingIcon;
+    public Icon flowingIcon;
     
 	public AcidFluid(int id, Fluid fluid) {
 		super(id,fluid, MaterialLiquid.water);
