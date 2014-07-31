@@ -30,6 +30,7 @@ public class ModManager {
 		addMod("vanillautils.VanillaUtils",						"",							"VanillaUtils");
 		addMod("bigbattery.BigBatteryMod", "$('BigReactors') && $('ThermalExpansion')" ,"BigBattery");
 		addMod("additionalsounds.SoundsMod", "", "SoundsMod");
+		addMod("superconductor.SuperConductorMod","$('BigReactors') && $('ThermalExpansion')", "SuperConductor");
 	}
 	
 	
