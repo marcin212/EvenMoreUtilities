@@ -63,20 +63,17 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void onAssimilated(MultiblockControllerBase arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onAttachedPartWithMultiblockData(IMultiblockPart arg0,
 			NBTTagCompound arg1) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -98,25 +95,21 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void onMachineAssembled() {
-		System.out.println("ASSEMBLKED");
 		
 	}
 
 	@Override
 	protected void onMachineDisassembled() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void onMachinePaused() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void onMachineRestored() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -129,7 +122,6 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void updateClient() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -155,12 +147,10 @@ public class SuperConductor extends MultiblockControllerBase{
 				energyNeed += c.getEnergyNeed();
 			}
 		}
-		System.out.println("ENERGY NEED: " + energyNeed);
 		long currentEnergy = 0;
 		for(TileEntityControler c : controlers){
 			if(!c.isOutput()){
 				int temp = c.getEnergy(energyNeed>Integer.MAX_VALUE?Integer.MAX_VALUE:(int)energyNeed);
-				System.out.println("RECIVED:" + temp);
 				currentEnergy += temp;
 				energyNeed -= temp;	
 				if(energyNeed<=0) break;
@@ -172,11 +162,7 @@ public class SuperConductor extends MultiblockControllerBase{
 				currentEnergy -= c.putEnergy(currentEnergy>Integer.MAX_VALUE?Integer.MAX_VALUE:(int)currentEnergy);
 				if(currentEnergy<=0) break;
 			}
-		}
-		System.out.println("ENERGY WASTE:" + currentEnergy);
-		
-		
-
+		}	
 		return true;
 	}
 
