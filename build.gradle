@@ -39,7 +39,6 @@ sourceSets{
         runtimeClasspath += api.output
     }
 }
-println(sourceSets.main.getCompileTaskName())
 
 minecraft {
 	version = "1.6.4-9.11.1.964"

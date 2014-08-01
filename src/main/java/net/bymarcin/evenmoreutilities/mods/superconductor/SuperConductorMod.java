@@ -1,6 +1,9 @@
 package net.bymarcin.evenmoreutilities.mods.superconductor;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
 import net.bymarcin.evenmoreutilities.IMod;
 import net.bymarcin.evenmoreutilities.mods.superconductor.block.BlockControler;
@@ -8,16 +11,18 @@ import net.bymarcin.evenmoreutilities.mods.superconductor.block.BlockWire;
 import net.bymarcin.evenmoreutilities.mods.superconductor.gui.ContainerControler;
 import net.bymarcin.evenmoreutilities.mods.superconductor.gui.GuiControler;
 import net.bymarcin.evenmoreutilities.mods.superconductor.gui.PacketUpdateFluidAmount;
+import net.bymarcin.evenmoreutilities.mods.superconductor.render.GlowingRender;
 import net.bymarcin.evenmoreutilities.mods.superconductor.tileentity.TileEntityControler;
 import net.bymarcin.evenmoreutilities.mods.superconductor.tileentity.TileEntityWire;
 import net.bymarcin.evenmoreutilities.registry.EMURegistry;
 import net.bymarcin.evenmoreutilities.registry.IGUI;
+import net.bymarcin.evenmoreutilities.registry.IProxy;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class SuperConductorMod implements IMod, IGUI{
+public class SuperConductorMod implements IMod, IGUI, IProxy{
 	public static int blockWireID;
 	public static int blockControlerID;
 	
@@ -34,6 +39,7 @@ public class SuperConductorMod implements IMod, IGUI{
 		
 		EMURegistry.registerGUI(this);
 		EMURegistry.registerPacket(3, PacketUpdateFluidAmount.class);
+		EMURegistry.registerProxy(this);
 	}
 
 	@Override
@@ -58,6 +64,23 @@ public class SuperConductorMod implements IMod, IGUI{
 			return new GuiControler(player,(TileEntityControler) blockEntity);
 		}
 		return null;
+	}
+
+	
+	public static int glowRenderID;
+	
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void clientSide() {
+		glowRenderID = RenderingRegistry.getNextAvailableRenderId();
+		RenderingRegistry.registerBlockHandler(new GlowingRender());
+	}
+
+	@Override
+	@SideOnly(Side.SERVER)
+	public void serverSide() {
+
 	}
 
 }
