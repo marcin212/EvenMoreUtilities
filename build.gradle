@@ -15,11 +15,31 @@ apply plugin: 'forge'
 dependencies {
 	compile files('libs/buildcraft-A-1.6.4-4.2.2.jar')
 	compile files('libs/Thaumcraft4.1.0g.zip')
-	compile files('binnie-mods-1.8.0.jar')
+	compile files('libs/binnie-mods-1.8.0.jar')
+    compile files('libs/BigReactors-0.3.3A.jar')
 }
+
+
+
 version = "1.6.4-0.0.3"
 group= "by.marcin.evenmoreutilities" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "EvenMoreUtilities"
+
+sourceSets{    
+    api{
+        java {
+            srcDir 'src/api/java'
+        }
+        resources {
+            srcDir 'src/api/resources'
+        }
+    }
+    main {
+        compileClasspath += api.output
+        runtimeClasspath += api.output
+    }
+}
+println(sourceSets.main.getCompileTaskName())
 
 minecraft {
 	version = "1.6.4-9.11.1.964"
@@ -29,6 +49,8 @@ minecraft {
 		assetDir="assets"
 	}
 }
+
+
 
 processResources
 {
@@ -45,3 +67,5 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+//compileMain.dependsOn compileApi
