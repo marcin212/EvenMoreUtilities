@@ -53,6 +53,7 @@ public class BlockSensor extends BlockContainer {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
+		//TODO zmienic to
 		sensorTopIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_side");
 		sensorFrontIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_front");
 		sensorSideIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_side");

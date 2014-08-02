@@ -25,7 +25,7 @@ public class VanillaUtils implements IMod{
 	  //  		"BMB",
 	  //   		'M', Item.bucketMilk, 'E', Item.egg, 'S', Item.sugar, 'B', Item.arrow);
 	    
-		
+		//TODO zmiana recepty
 		RedstoneEmitterID = EvenMoreUtilities.instance.config.getBlock("BlocksId","redstoneEmitterID", 2049).getInt();
 		GameRegistry.registerBlock(BlockRedstoneEmitter.instance,StaticValues.modId+":RedstoneEmitter");
 	    GameRegistry.addRecipe(new ItemStack(BlockRedstoneEmitter.instance), "   ", "rzr", " x ",
@@ -54,7 +54,6 @@ public class VanillaUtils implements IMod{
 
 	@Override
 	public void postInit() {
-		// TODO Auto-generated method stub
 		
 	}
 }

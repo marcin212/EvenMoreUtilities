@@ -1,6 +1,7 @@
 package net.bymarcin.evenmoreutilities.mods.superconductor.block;
 
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
+import net.bymarcin.evenmoreutilities.mods.superconductor.SuperConductor;
 import net.bymarcin.evenmoreutilities.mods.superconductor.SuperConductorMod;
 import net.bymarcin.evenmoreutilities.mods.superconductor.render.Glowing;
 import net.bymarcin.evenmoreutilities.mods.superconductor.tileentity.TileEntityControler;
@@ -117,6 +118,14 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 
 	@Override
 	public Icon getGlowIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
+		
+		TileEntityControler tile = (TileEntityControler) blockAccess.getBlockTileEntity(x, y, z);
+		if(tile != null && tile.getMultiblockController() !=null){
+			if(!((SuperConductor)tile.getMultiblockController()).active)
+				return null;
+		}else
+			return null;
+		
 		ForgeDirection[] dirsToCheck = Sides.neighborsBySide[side];
 		ForgeDirection dir;
 		int myBlockId = blockAccess.getBlockId(x, y, z);

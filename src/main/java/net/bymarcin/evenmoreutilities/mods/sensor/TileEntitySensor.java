@@ -150,13 +150,12 @@ public class TileEntitySensor extends TileEnergyHandler implements IPeripheral, 
 
 	@Override
 	public void attach(IComputerAccess computer) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void detach(IComputerAccess computer) {
-		// TODO Auto-generated method stub
+
 		
 	}
 	

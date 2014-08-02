@@ -15,7 +15,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import erogenousbeef.core.multiblock.BlockMultiblockBase;
-import erogenousbeef.core.multiblock.MultiblockTileEntityBase;
 
 public class BlockWire extends BlockMultiblockBase implements Glowing {
 	public static BlockWire instance = new BlockWire(SuperConductorMod.blockWireID);
@@ -84,6 +83,13 @@ public class BlockWire extends BlockMultiblockBase implements Glowing {
 
 	@Override
 	public Icon getGlowIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
+		TileEntityWire tile = (TileEntityWire) blockAccess.getBlockTileEntity(x, y, z);
+		if(tile != null && tile.getMultiblockController() !=null){
+			if(!((SuperConductor)tile.getMultiblockController()).active)
+				return null;
+		}else
+			return null;
+		
 		ForgeDirection[] dirsToCheck = Sides.neighborsBySide[side];
 		ForgeDirection dir;
 		int myBlockId = blockAccess.getBlockId(x, y, z);

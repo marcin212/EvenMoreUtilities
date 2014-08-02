@@ -28,12 +28,19 @@ public class SuperConductor extends MultiblockControllerBase{
 	public void decodeDescriptionPacket(NBTTagCompound arg0) {
 		tank.readFromNBT(arg0);	
 		boolean lactive = arg0.getBoolean("active");
-		System.out.println(lactive);
 		if(lactive != active){
 			active = lactive;
-			//XXX:HERE UPDATE RENDER
+			renderUpdate();
 		}
 	}
+	
+	public void renderUpdate(){
+		System.out.println("RENDERUPDATE");
+		if(worldObj.isRemote)
+			for(IMultiblockPart c:connectedParts)
+				worldObj.markBlockForRenderUpdate(c.xCoord, c.yCoord, c.zCoord);
+	}
+	
 
 	@Override
 	public void formatDescriptionPacket(NBTTagCompound arg0) {
@@ -64,6 +71,8 @@ public class SuperConductor extends MultiblockControllerBase{
 	@Override
 	protected void isMachineWhole() throws MultiblockValidationException {
 		if(controlers.size()<2){
+			active=false;
+			renderUpdate();
 			throw new MultiblockValidationException("Wire must have minimum 2 controlers");
 		}
 		
@@ -71,14 +80,11 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase arg0) {
-		if(arg0 instanceof SuperConductor){
-			//XXX: TANK NULLEM w dziwnych momentach tank.getFluid().amount += ((SuperConductor) arg0).getTank().getFluidAmount();
-		}
 	}
 
 	@Override
 	protected void onAssimilated(MultiblockControllerBase arg0) {
-
+		((SuperConductor) arg0).getTank().fill(tank.getFluid(), true);
 	}
 
 	@Override
@@ -99,11 +105,6 @@ public class SuperConductor extends MultiblockControllerBase{
 		if(arg0 instanceof TileEntityControler){
 			controlers.remove((TileEntityControler) arg0);
 		}
-		
-		if(arg0.worldObj.isRemote){
-			//XXX:HERE UPDATE RENDER
-			arg0.worldObj.markBlockForRenderUpdate(arg0.xCoord, arg0.yCoord, arg0.zCoord);
-		}
 	}
 
 	@Override
@@ -116,7 +117,8 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void onMachineDisassembled() {
-		
+		active = false;
+		renderUpdate();
 	}
 
 	@Override
@@ -137,6 +139,8 @@ public class SuperConductor extends MultiblockControllerBase{
 		tank.readFromNBT(arg0);	
 		if(arg0.hasKey("ticksFromLastDrain"))
 			ticksFromLastDrain = arg0.getInteger("ticksFromLastDrain");
+		if(arg0.hasKey("activMachine"))
+			active = arg0.getBoolean("activMachine");
 	}
 
 	@Override
@@ -162,7 +166,6 @@ public class SuperConductor extends MultiblockControllerBase{
 
 		if(newactive != active){
 			active = newactive;
-			//XXX:HERE UPDATE RENDER
 			worldObj.markBlockForUpdate(getReferenceCoord().x, getReferenceCoord().y,getReferenceCoord().z);
 		}
 		if(!active)
@@ -197,6 +200,7 @@ public class SuperConductor extends MultiblockControllerBase{
 	public void writeToNBT(NBTTagCompound arg0) {
 		tank.writeToNBT(arg0);
 		arg0.setInteger("ticksFromLastDrain", ticksFromLastDrain);
+		arg0.setBoolean("activMachine", active);
 	}
 
 }
