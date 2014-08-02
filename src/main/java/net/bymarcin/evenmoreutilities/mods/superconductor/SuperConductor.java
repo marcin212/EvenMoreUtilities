@@ -55,7 +55,7 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void isMachineWhole() throws MultiblockValidationException {
-		if(controlers.size()<3){
+		if(controlers.size()<2){
 			throw new MultiblockValidationException("Wire must have minimum 2 controlers");
 		}
 		
@@ -63,12 +63,12 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase arg0) {
-		
+
 	}
 
 	@Override
 	protected void onAssimilated(MultiblockControllerBase arg0) {
-		
+
 	}
 
 	@Override
@@ -82,7 +82,6 @@ public class SuperConductor extends MultiblockControllerBase{
 		if(arg0 instanceof TileEntityControler){
 			controlers.add((TileEntityControler) arg0);
 		}
-		tank.setCapacity(tank.getCapacity()+4000);	
 	}
 
 	@Override
@@ -90,12 +89,14 @@ public class SuperConductor extends MultiblockControllerBase{
 		if(arg0 instanceof TileEntityControler){
 			controlers.remove((TileEntityControler) arg0);
 		}
-		tank.setCapacity(Math.max(0,tank.getCapacity()-4000));
 	}
 
 	@Override
 	protected void onMachineAssembled() {
-		
+		tank.setCapacity(connectedParts.size()*4000);
+		if(tank.getFluidAmount()>tank.getCapacity()){
+			tank.getFluid().amount = tank.getCapacity();
+		}
 	}
 
 	@Override
@@ -110,7 +111,10 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void onMachineRestored() {
-		
+		tank.setCapacity(connectedParts.size()*4000);
+		if(tank.getFluidAmount()>tank.getCapacity()){
+			tank.getFluid().amount = tank.getCapacity();
+		}
 	}
 
 	@Override

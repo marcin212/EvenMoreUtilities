@@ -58,9 +58,11 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			return true;
 		}
 		
-		if(!player.isSneaking()){
-			player.openGui(EvenMoreUtilities.instance, 4, world, par2, par3, par4);
-			return true;
+		if(!player.isSneaking() && world.getBlockTileEntity(par2, par3, par4) instanceof TileEntityControler){
+			if(((TileEntityControler)world.getBlockTileEntity(par2, par3, par4)).getMultiblockController().isAssembled()){ 
+				player.openGui(EvenMoreUtilities.instance, 4, world, par2, par3, par4);
+				return true;
+			}
 		}
 		
 		return false;
