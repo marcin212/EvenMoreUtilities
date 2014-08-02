@@ -19,8 +19,13 @@ public class GlowingRender implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-		renderer.renderStandardBlock(block, x, y, z);
-		renderGlow(world, x, y, z, block, renderer);
+		//System.out.println(SuperConductorMod.pass);
+		if (SuperConductorMod.pass == 0) {
+			renderer.renderStandardBlock(block, x, y, z);
+			return true;
+		} else {
+			renderGlow(world, x, y, z, block, renderer);
+		}
 		return true;
 	}
 
@@ -40,7 +45,7 @@ public class GlowingRender implements ISimpleBlockRenderingHandler {
 
 	public static void drawFaces(RenderBlocks renderblocks, Block block, Icon i1, Icon i2, Icon i3, Icon i4, Icon i5, Icon i6, boolean solidtop) {
 		Tessellator tessellator = Tessellator.instance;
-		
+
 		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
 		tessellator.startDrawingQuads();
 		tessellator.setNormal(0.0F, -1.0F, 0.0F);
@@ -75,43 +80,40 @@ public class GlowingRender implements ISimpleBlockRenderingHandler {
 
 	protected static void renderGlow(IBlockAccess blockAccess, int x, int y, int z, Block block, RenderBlocks renderer) {
 
-		
-	    Tessellator tessellator = Tessellator.instance;
-		
+		Tessellator tessellator = Tessellator.instance;
+
 		tessellator.setBrightness(0xF << 20 | 0xF << 4);
 		tessellator.setColorOpaque_F(1F, 1F, 1F);
-		
-		
+
 		Icon tex = ((Glowing) block).getGlowIcon(blockAccess, x, y, z, 5);
-		if (tex != null){
+		if (tex != null) {
 			renderer.renderFaceXPos(block, x, y, z, tex);
-			
+
 		}
 		tex = ((Glowing) block).getGlowIcon(blockAccess, x, y, z, 4);
-		if (tex != null){
+		if (tex != null) {
 			renderer.renderFaceXNeg(block, x, y, z, tex);
-			
+
 		}
 		tex = ((Glowing) block).getGlowIcon(blockAccess, x, y, z, 3);
-		if (tex != null){
+		if (tex != null) {
 			renderer.renderFaceZPos(block, x, y, z, tex);
-			
+
 		}
 		tex = ((Glowing) block).getGlowIcon(blockAccess, x, y, z, 2);
-		if (tex != null){
+		if (tex != null) {
 			renderer.renderFaceZNeg(block, x, y, z, tex);
-			
+
 		}
 		tex = ((Glowing) block).getGlowIcon(blockAccess, x, y, z, 1);
-		if (tex != null){
+		if (tex != null) {
 			renderer.renderFaceYPos(block, x, y, z, tex);
-			
+
 		}
 		tex = ((Glowing) block).getGlowIcon(blockAccess, x, y, z, 0);
-		if (tex != null){
+		if (tex != null) {
 			renderer.renderFaceYNeg(block, x, y, z, tex);
-			
 		}
-		
+	
 	}
 }
