@@ -35,7 +35,6 @@ public class SuperConductor extends MultiblockControllerBase{
 	}
 	
 	public void renderUpdate(){
-		System.out.println("RENDERUPDATE");
 		if(worldObj.isRemote)
 			for(IMultiblockPart c:connectedParts)
 				worldObj.markBlockForRenderUpdate(c.xCoord, c.yCoord, c.zCoord);
