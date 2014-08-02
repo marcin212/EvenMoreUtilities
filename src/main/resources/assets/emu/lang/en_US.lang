@@ -15,7 +15,7 @@ item.emu.kindersurprise.name=Kinder Surprise
 tile.emu.blockCharcoalCoal.name=Block of Charcoal
 
 tile.emu.bigBatteryComputerPort.name=Computer Port BigBattery
-tile.emu.bigBatteryControler.name=Controler BigBattery
+tile.emu.bigBatteryControler.name=Controller BigBattery
 tile.emu.bigBatteryElectrode.name=Electrode BigBattery
 tile.emu.bigBatteryGlass.name=Glass BigBattery
 tile.emu.bigBatteryPowerTap.name=Power Tap BigBattery
@@ -25,3 +25,5 @@ tile.emu.sulfurBlock.name=Block of Sulfur
 tile.sulfurousacid.name=Sulfurous Acid 
 item.emu.acidBucket.name=Sulfurous Acid Bucket
 fluid.sulfurousacid=Sulfurous Acid 
+tile.emu.BlockControler.name=Superconductor IO
+tile.emu.BlockWire.name=Superconductor Wire
