@@ -60,7 +60,7 @@ public class BlockSensor extends BlockContainer {
 		sensorInIcon = par1IconRegister.registerIcon(StaticValues.modId + ":multimeter_in");
 		sensorOutIcon = par1IconRegister.registerIcon(StaticValues.modId + ":multimeter_out");
 	}
-
+	@Override
 	 public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
      {
          int whichDirectionFacing = MathHelper.floor_double((double)(par5EntityLivingBase.rotationYaw * 4.0F / 360.0F) + 2.5D) & 3;
