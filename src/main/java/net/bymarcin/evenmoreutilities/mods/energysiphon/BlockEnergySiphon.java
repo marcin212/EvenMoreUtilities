@@ -26,7 +26,7 @@ public class BlockEnergySiphon extends BlockContainer{
 	
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		siphonIcon = par1IconRegister.registerIcon(StaticValues.modId + ":siphon");
+		siphonIcon = par1IconRegister.registerIcon(StaticValues.modId + ":energy_siphon");
 		super.registerIcons(par1IconRegister);
 	}
 	

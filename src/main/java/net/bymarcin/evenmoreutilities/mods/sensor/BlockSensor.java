@@ -53,12 +53,12 @@ public class BlockSensor extends BlockContainer {
 
 	@Override
 	public void registerIcons(IconRegister par1IconRegister) {
-		sensorTopIcon = par1IconRegister.registerIcon(StaticValues.modId + ":multimeter_top");
-		sensorFrontIcon = par1IconRegister.registerIcon(StaticValues.modId + ":multimeter_front");
-		sensorSideIcon = par1IconRegister.registerIcon(StaticValues.modId + ":multimeter_side");
-		sensorBottomIcon = par1IconRegister.registerIcon(StaticValues.modId + ":multimeter_bottom");
-		sensorInIcon = par1IconRegister.registerIcon(StaticValues.modId + ":multimeter_in");
-		sensorOutIcon = par1IconRegister.registerIcon(StaticValues.modId + ":multimeter_out");
+		sensorTopIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_side");
+		sensorFrontIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_front");
+		sensorSideIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_side");
+		sensorBottomIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_side");
+		sensorInIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_input");
+		sensorOutIcon = par1IconRegister.registerIcon(StaticValues.modId + ":rf_meter_output");
 	}
 	@Override
 	 public void onBlockPlacedBy(World par1World, int x, int y, int z, EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
