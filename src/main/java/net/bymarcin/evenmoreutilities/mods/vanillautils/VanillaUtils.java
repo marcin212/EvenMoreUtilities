@@ -3,6 +3,7 @@ package net.bymarcin.evenmoreutilities.mods.vanillautils;
 import net.bymarcin.evenmoreutilities.EvenMoreUtilities;
 import net.bymarcin.evenmoreutilities.IMod;
 import net.bymarcin.evenmoreutilities.utils.StaticValues;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -12,6 +13,7 @@ public class VanillaUtils implements IMod{
 	static Integer blockCharcoalID;
 	static ItemStack coal = new ItemStack(Item.coal, 1);
 	static ItemStack coal9 = new ItemStack(Item.coal, 9,1);
+	public static int RedstoneEmitterID;
 	
 	@Override
 	public void init() {
@@ -23,6 +25,12 @@ public class VanillaUtils implements IMod{
 	  //  		"BMB",
 	  //   		'M', Item.bucketMilk, 'E', Item.egg, 'S', Item.sugar, 'B', Item.arrow);
 	    
+		
+		RedstoneEmitterID = EvenMoreUtilities.instance.config.getBlock("BlocksId","redstoneEmitterID", 2049).getInt();
+		GameRegistry.registerBlock(BlockRedstoneEmitter.instance,StaticValues.modId+":RedstoneEmitter");
+	    GameRegistry.addRecipe(new ItemStack(BlockRedstoneEmitter.instance), "   ", "rzr", " x ",
+	            'x', Item.redstoneRepeater, 'r', Item.redstone, 'z', Block.torchRedstoneActive);
+		
 	    blockCharcoalID = EvenMoreUtilities.instance.config.getBlock("ItemsId","BlockCharcoalID", 1012).getInt();
 	    GameRegistry.registerBlock(BlockCharcoal.instance,StaticValues.modId+":BlockCharcoal");
 	    coal.setItemDamage(1);

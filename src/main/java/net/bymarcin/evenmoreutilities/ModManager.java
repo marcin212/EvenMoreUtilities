@@ -23,7 +23,6 @@ public class ModManager {
 		addMod("energysiphon.EnergySiphonMod", 					"$('ThermalExpansion')", 	"EnergySiphonMod");
 		addMod("sensor.SensorMod",  							"$('ThermalExpansion') && ($('ComputerCraft') || $('OpenComponents'))" , "SensorMod");
 		addMod("scanner.ScannerMod", 							"$('OpenComponents')", 		"ScannerMod");
-		addMod("redstonemitter.RedstoneEmitterMod", 			"", 						"RedstoneEmitterMod");
 		addMod("nfc.NFCMod",									"$('OpenComponents')" ,		"NFCMod");
 		addMod("additionalconverters.ModAdditionalConverters",	"$('OpenComponents')" , 	"AdditionalConverters");
 		addMod("yelloriumenhancement.YE",						"$('ExtraBees') && $('BigReactors')","YE");
