@@ -99,7 +99,7 @@ public class TileEntityControler extends TileEntityBase implements
 	}
 
 	public boolean isOutput() {
-		return worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0;
+		return (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) & 1) == 0;
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class TileEntityControler extends TileEntityBase implements
 
 	@Override
 	public void onMachineBroken() {
-
+	
 	}
 
 	@Override

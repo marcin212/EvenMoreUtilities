@@ -68,7 +68,7 @@ public class SuperConductorMod implements IMod, IGUI, IProxy{
 
 	
 	public static int glowRenderID;
-	
+	public static int pass;
 	
 	@Override
 	@SideOnly(Side.CLIENT)

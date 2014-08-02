@@ -14,6 +14,7 @@ public class SuperConductor extends MultiblockControllerBase{
 	ArrayList<TileEntityControler> controlers;
 	FluidTank tank = new FluidTank(0);
 	int ticksFromLastDrain = 0;
+	public boolean active = false;
 	public SuperConductor(World world) {
 		super(world);
 		controlers = new ArrayList<TileEntityControler>();
@@ -26,11 +27,18 @@ public class SuperConductor extends MultiblockControllerBase{
 	@Override
 	public void decodeDescriptionPacket(NBTTagCompound arg0) {
 		tank.readFromNBT(arg0);	
+		boolean lactive = arg0.getBoolean("active");
+		System.out.println(lactive);
+		if(lactive != active){
+			active = lactive;
+			//XXX:HERE UPDATE RENDER
+		}
 	}
 
 	@Override
 	public void formatDescriptionPacket(NBTTagCompound arg0) {
-		tank.writeToNBT(arg0);	
+		tank.writeToNBT(arg0);
+		arg0.setBoolean("active", active);
 	}
 
 	@Override
@@ -63,7 +71,9 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void onAssimilate(MultiblockControllerBase arg0) {
-
+		if(arg0 instanceof SuperConductor){
+			//XXX: TANK NULLEM w dziwnych momentach tank.getFluid().amount += ((SuperConductor) arg0).getTank().getFluidAmount();
+		}
 	}
 
 	@Override
@@ -88,6 +98,11 @@ public class SuperConductor extends MultiblockControllerBase{
 	protected void onBlockRemoved(IMultiblockPart arg0) {
 		if(arg0 instanceof TileEntityControler){
 			controlers.remove((TileEntityControler) arg0);
+		}
+		
+		if(arg0.worldObj.isRemote){
+			//XXX:HERE UPDATE RENDER
+			arg0.worldObj.markBlockForRenderUpdate(arg0.xCoord, arg0.yCoord, arg0.zCoord);
 		}
 	}
 
@@ -137,13 +152,21 @@ public class SuperConductor extends MultiblockControllerBase{
 				c.updateTick();
 		}
 		
-		if(ticksFromLastDrain>=864){
+		if(ticksFromLastDrain>= 12*60*60*20/1000){
 			tank.drain(1, true);
 			ticksFromLastDrain =0;
 		}
 		ticksFromLastDrain++;
 		
-		if((float)tank.getFluidAmount()/(float)tank.getCapacity()<0.5) return true;
+		boolean newactive = (float)tank.getFluidAmount()/(float)tank.getCapacity()>=0.5;
+
+		if(newactive != active){
+			active = newactive;
+			//XXX:HERE UPDATE RENDER
+			worldObj.markBlockForUpdate(getReferenceCoord().x, getReferenceCoord().y,getReferenceCoord().z);
+		}
+		if(!active)
+			return true;
 		
 		long energyNeed=0;
 		for(TileEntityControler c : controlers){

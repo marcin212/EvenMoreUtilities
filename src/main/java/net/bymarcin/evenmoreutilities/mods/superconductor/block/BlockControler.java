@@ -42,7 +42,11 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 	
 	@Override
 	public Icon getIcon(int side, int metadata) {
-		return icons[metadata][0];
+		return icons[metadata&1][0];
+	}
+	
+	public int getBlockType(IBlockAccess blockAccess, int x, int y, int z){
+		return blockAccess.getBlockMetadata(x, y, z)&1;
 	}
 	
 	@Override
@@ -50,11 +54,7 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			int par4, EntityPlayer player, int par6, float par7,
 			float par8, float par9) {
 		if(player.getCurrentEquippedItem()==null && player.isSneaking()){
-			if(world.getBlockMetadata(par2, par3, par4)==0){
-				world.setBlockMetadataWithNotify(par2, par3, par4, 1, 2);
-			}else{
-				world.setBlockMetadataWithNotify(par2, par3, par4, 0, 2);
-			}
+			world.setBlockMetadataWithNotify(par2, par3, par4, world.getBlockMetadata(par2, par3, par4)^1, 2);
 			return true;
 		}
 		
@@ -83,7 +83,7 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			return transparentIcon;
 		}
 		if(isEnergyHandler(world, x + out.offsetX, y + out.offsetY, z + out.offsetZ))
-			return icons[blockAccess.getBlockMetadata(x, y, z)][15];
+			return icons[getBlockType(blockAccess,x, y, z)][15];
 
 		// Calculate icon index based on whether the blocks around this block
 		// match it
@@ -100,7 +100,7 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			}
 		}
 
-		return icons[blockAccess.getBlockMetadata(x, y, z)][iconIdx];
+		return icons[getBlockType(blockAccess,x, y, z)][iconIdx];
 	}
 	
 	public boolean isEnergyHandler(World world, int x, int y, int z){
@@ -129,7 +129,7 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			return null;
 		}
 		if(isEnergyHandler(world, x + out.offsetX, y + out.offsetY, z + out.offsetZ))
-			return glowIcons[blockAccess.getBlockMetadata(x, y, z)][15];
+			return glowIcons[getBlockType(blockAccess,x, y, z)][15];
 
 		// Calculate icon index based on whether the blocks around this block
 		// match it
@@ -146,12 +146,22 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			}
 		}
 
-		return glowIcons[blockAccess.getBlockMetadata(x, y, z)][iconIdx];
+		return glowIcons[getBlockType(blockAccess,x, y, z)][iconIdx];
 	}
 
 	@Override
 	public int getRenderType() {
 		return SuperConductorMod.glowRenderID;
+	}
+	
+	@Override
+	public boolean canRenderInPass(int pass) {
+		SuperConductorMod.pass = pass;
+		return true;
+	}
+	@Override
+	public int getRenderBlockPass() {
+		return 1;
 	}
 	@Override
 	public int getLightValue(IBlockAccess world, int x, int y, int z) {

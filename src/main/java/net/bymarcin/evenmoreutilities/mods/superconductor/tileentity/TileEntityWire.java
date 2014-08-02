@@ -19,7 +19,6 @@ public class TileEntityWire extends TileEntityBase{
 
 	@Override
 	public void onMachineBroken() {
-		// TODO Auto-generated method stub
 		
 	}
 

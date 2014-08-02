@@ -92,15 +92,16 @@ public class QuarryFixerBlock extends Block {
 	public boolean onBlockActivated(World par1World, int par2, int par3,
 			int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
 			float par8, float par9) {
-		par1World.setBlockMetadataWithNotify(par2, par3, par4,(par1World.getBlockMetadata(par2, par3, par4)|8), 2);
-		par1World.scheduleBlockUpdate(par2, par3, par4, blockID, tickRate(par1World));
+		
+		if((par1World.getBlockMetadata(par2, par3, par4) & 8) != 0)
+			return true;
+		
+		TileQuarry tq = null;
+		
 		int sx, sy, sz;
 		sx = par2;
 		sy = par3;
 		sz = par4;
-		TileQuarry tq = null;
-		
-		
 		
 		for (ForgeDirection dir : ForgeDirection.VALID_DIRECTIONS) {
 			if (par1World.getBlockTileEntity(sx + dir.offsetX, sy + dir.offsetY, sz + dir.offsetZ) instanceof TileQuarry) {
@@ -111,6 +112,11 @@ public class QuarryFixerBlock extends Block {
 
 		if (tq == null)
 			return false;
+		
+		par1World.setBlockMetadataWithNotify(par2, par3, par4,(par1World.getBlockMetadata(par2, par3, par4)|8), 2);
+		par1World.scheduleBlockUpdate(par2, par3, par4, blockID, tickRate(par1World));
+
+		
 
 		Box box = tq.box;
 
