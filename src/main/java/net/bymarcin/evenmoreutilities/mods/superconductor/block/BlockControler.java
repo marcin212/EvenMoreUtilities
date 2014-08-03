@@ -37,6 +37,7 @@ public class BlockControler extends BlockMultiblockBase implements Glowing{
 			icons[1][i] = iconRegister.registerIcon(StaticValues.modId + ":sc_conductor_input_"+i);
 			glowIcons[0][i] = iconRegister.registerIcon(StaticValues.modId + ":sc_conductor_output_glow_"+i);
 			glowIcons[1][i] = iconRegister.registerIcon(StaticValues.modId + ":sc_conductor_input_glow_"+i);
+			
 		}
 			transparentIcon = iconRegister.registerIcon(StaticValues.modId + ":bb_transparent");
 	}

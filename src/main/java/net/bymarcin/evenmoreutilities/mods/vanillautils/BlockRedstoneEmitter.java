@@ -28,7 +28,7 @@ public class BlockRedstoneEmitter extends Block{
 			float par8, float par9) {
 		
 		if(player.getHeldItem()==null && player.isSneaking() && world.getBlockMetadata(x, y, z)>0){
-			world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z)-1, 2);
+			world.setBlockMetadataWithNotify(x, y, z, world.getBlockMetadata(x, y, z) -1, 2);
 			world.notifyBlockChange(x, y, z, blockID);
 			return true;
 		}
