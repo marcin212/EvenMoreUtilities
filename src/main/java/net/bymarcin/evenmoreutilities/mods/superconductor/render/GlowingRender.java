@@ -19,7 +19,6 @@ public class GlowingRender implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
-		//System.out.println(SuperConductorMod.pass);
 		if (SuperConductorMod.pass == 0) {
 			renderer.renderStandardBlock(block, x, y, z);
 			return true;
