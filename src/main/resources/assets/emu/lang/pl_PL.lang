@@ -13,3 +13,17 @@ tile.emu.MultimeterSensor.name=Miernik Przepływu Fluksu Redstone
 
 item.emu.kindersurprise.name=Kinder Niespodzianka
 tile.emu.blockCharcoalCoal.name=Blok Węgla Drzewnego
+
+tile.emu.bigBatteryComputerPort.name=Port Komputera Dużej Baterii
+tile.emu.bigBatteryControler.name=Kontroler Dużej Baterii
+tile.emu.bigBatteryElectrode.name=Elektroda Dużej Baterii
+tile.emu.bigBatteryGlass.name=Szklana Obudowa Dużej Baterii
+tile.emu.bigBatteryPowerTap.name=Port We/Wy Energii Dużej Baterii
+tile.emu.bigBatteryWall.name=Obudowa Dużej Baterii
+
+tile.emu.sulfurBlock.name=Blok Siarki
+tile.sulfurousacid.name=Kwas Siarkowy
+item.emu.acidBucket.name=Wiadro z Kwasem Siarkowym
+fluid.sulfurousacid=Kwas Siarkowy
+tile.emu.BlockControler.name=Kontroler Nadprzewodnika
+tile.emu.BlockWire.name=Nadprzewodnik
