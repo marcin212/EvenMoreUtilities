@@ -30,13 +30,11 @@ public class TileEntityWire extends TileEntityBase{
 
 @Override
 public void writeToNBT(NBTTagCompound par1nbtTagCompound) {
-	// TODO Auto-generated method stub
 	super.writeToNBT(par1nbtTagCompound);
 }
 
 @Override
 public void readFromNBT(NBTTagCompound par1nbtTagCompound) {
-	// TODO Auto-generated method stub
 	super.readFromNBT(par1nbtTagCompound);
 }
 }

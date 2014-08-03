@@ -27,7 +27,7 @@ public class SuperConductor extends MultiblockControllerBase{
 	@Override
 	public void decodeDescriptionPacket(NBTTagCompound arg0) {
 		tank.readFromNBT(arg0);	
-		boolean lactive = arg0.getBoolean("active");
+		boolean lactive = arg0.getBoolean("activMachine");
 		if(lactive != active){
 			active = lactive;
 			renderUpdate();
@@ -44,7 +44,7 @@ public class SuperConductor extends MultiblockControllerBase{
 	@Override
 	public void formatDescriptionPacket(NBTTagCompound arg0) {
 		tank.writeToNBT(arg0);
-		arg0.setBoolean("active", active);
+		arg0.setBoolean("activMachine", active);
 	}
 
 	@Override
@@ -87,9 +87,8 @@ public class SuperConductor extends MultiblockControllerBase{
 	}
 
 	@Override
-	public void onAttachedPartWithMultiblockData(IMultiblockPart arg0,
-			NBTTagCompound arg1) {
-		
+	public void onAttachedPartWithMultiblockData(IMultiblockPart arg0,NBTTagCompound arg1) {
+		readFromNBT(arg1);
 	}
 
 	@Override
@@ -127,15 +126,18 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void onMachineRestored() {
+		worldObj.markBlockForUpdate(getReferenceCoord().x, getReferenceCoord().y,getReferenceCoord().z);
 		tank.setCapacity(connectedParts.size()*4000);
 		if(tank.getFluidAmount()>tank.getCapacity()){
 			tank.getFluid().amount = tank.getCapacity();
 		}
 	}
 
+	
+	
 	@Override
 	public void readFromNBT(NBTTagCompound arg0) {
-		tank.readFromNBT(arg0);	
+		tank = tank.readFromNBT(arg0);	
 		if(arg0.hasKey("ticksFromLastDrain"))
 			ticksFromLastDrain = arg0.getInteger("ticksFromLastDrain");
 		if(arg0.hasKey("activMachine"))
@@ -144,7 +146,7 @@ public class SuperConductor extends MultiblockControllerBase{
 
 	@Override
 	protected void updateClient() {
-		
+
 	}
 
 	
@@ -162,7 +164,6 @@ public class SuperConductor extends MultiblockControllerBase{
 		ticksFromLastDrain++;
 		
 		boolean newactive = (float)tank.getFluidAmount()/(float)tank.getCapacity()>=0.5;
-
 		if(newactive != active){
 			active = newactive;
 			worldObj.markBlockForUpdate(getReferenceCoord().x, getReferenceCoord().y,getReferenceCoord().z);

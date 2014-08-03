@@ -83,13 +83,20 @@ public class BlockWire extends BlockMultiblockBase implements Glowing {
 
 	@Override
 	public Icon getGlowIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
+		System.out.println("UPDATE");
 		TileEntityWire tile = (TileEntityWire) blockAccess.getBlockTileEntity(x, y, z);
 		if(tile != null && tile.getMultiblockController() !=null){
-			if(!((SuperConductor)tile.getMultiblockController()).active)
+			if(!((SuperConductor)tile.getMultiblockController()).active){
+				System.out.println("ACIVE JEST FALSE");
 				return null;
-		}else
+			}else
+				System.out.println("ACTIVE");
+		}else{
+			System.out.println("COSNULLEM");
 			return null;
+		}
 		
+		System.out.println("swiece");
 		ForgeDirection[] dirsToCheck = Sides.neighborsBySide[side];
 		ForgeDirection dir;
 		int myBlockId = blockAccess.getBlockId(x, y, z);
